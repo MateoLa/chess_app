@@ -103,7 +103,7 @@ gem "redcarpet", "~> 3.5"
 
 gem 'ahoy_matey', '~> 5.5'
 gem 'groupdate', '~> 6.6'
-gem 'chartkick', '~> 5.2'
+gem 'chartkick', '~> 5.3'
 
 # gem 'pgn', path: "https://github.com:MateoLa/pgn.git"
 gem 'pgn'
