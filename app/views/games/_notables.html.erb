@@ -1,0 +1,25 @@
+<% notable = load_notable %>
+
+<%= content_tag :div, data: {
+    controller: "notable", 
+    pgn: notable.pgn,
+    board_theme: @board_theme,
+    piece_theme: pieceTheme(@piece_theme)
+    }, class: "d-flex justify-content-center" do %>
+
+    <div><%= notable.title + " - " + notable.year %></div>
+    <div class="mb-5"><%= notable.event + " - " + notable.site %></div>
+
+    <div class="my-2 mx-auto w-100" style="max-width: 500px;">
+        <%= render "game/player_card", id: 2, card: {name: notable.black, avatar: notable.bavatar} %>
+        <div id="board" style="max-width: 500px;"></div>
+        <%= render "game/player_card", id: 1, card: {name: notable.white, avatar: notable.wavatar} %>
+    </div>
+
+    <%= render "game/navigator", controller: "notable", pause: true %>
+            
+    <div class="my-3 d-hidden">
+        <h5><%= t(:annotation) %></h5>
+        <p data-notable-target="annotation"></p>
+    </div>
+<% end %>

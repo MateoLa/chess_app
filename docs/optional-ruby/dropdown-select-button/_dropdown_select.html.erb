@@ -1,0 +1,36 @@
+<%# locals: (preference:, selected:, options:) %>
+<% item = options.find { |opt| opt[:name] == selected } %>
+
+<div class="dpdw-sel" data-controller="dpdwsel" data-pref="<%= preference %>">
+    <button class="w-100 btn btn-outline-success text-start custom-font-size custom-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <% if item.key? :icon %>
+            <i class="<%= item[:icon] %>" data-dpdwsel-target="icon"></i>
+        <% end %>
+        <span data-dpdwsel-target="name"><%= item[:locale] %></span>
+        <% if item.key? :attr %>
+            <span class="ms-2" data-dpdwsel-target="attr"><%= item[:attr] %></span>
+        <% end %>
+    </button>
+    
+    <ul class="dropdown-menu p-0">
+        <% options.each do |option| %>
+            <li class="d-flex custom-font-size">
+                <%= link_to '#', class: "w-100 btn btn-outline-success text-start custom-font-size", data: {
+                    action: "click->dpdwsel#set", 
+                    icon: option[:icon], 
+                    name: option[:name], 
+                    locale: option[:locale], 
+                    attr: option[:attr]
+                } do %>
+                    <% if option.key? :icon %>
+                        <i class="<%= option[:icon] %>"></i> 
+                    <% end %>
+                    <span><%= option[:locale] %></span>
+                    <% if option.key? :attr %>
+                        <span class="ms-2"><%= option[:attr] %></span>
+                    <% end %>
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+</div>

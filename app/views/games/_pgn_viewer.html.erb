@@ -1,0 +1,67 @@
+<% orientation = game.orientation(current_user) %>
+
+<%= content_tag(:div, "", data: {
+    controller: "pgn-viewer", 
+    game_id: game.id,
+    fen: game.fen,
+    pgn: game.pgn,
+    white_timer: game.white_timer,
+    black_timer: game.black_timer,
+    turn: game.turn,
+    orientation: orientation,
+    action: "chess:stop-timer->countdown#stopTimer
+        chess:toggle-timer->countdown#toggleTimer
+        countdown:timer-info->chess#timerInfo"
+    }, class: "row") do %>
+
+    <div class="col-8 d-flex justify-content-center">
+        <div>
+            <%= render "games/player_card", card: orientation === "white" ? SetCard(game, "black") : SetCard(game, "white") %>
+            <div id="board-<%= game.id %>" style="width: <%= width %>"></div>
+            <%= render "games/player_card", card: orientation === "white" ? SetCard(game, "white") : SetCard(game, "black") %>
+
+            <div class="text-center my-3">
+                <button class="btn btn-primary" data-action="pgn-viewer#startBtn">
+                    <i class="bi bi-chevron-bar-left"></i> 
+                </button>
+                <button class="btn btn-primary" data-action="pgn-viewer#prevBtn">
+                    <i class="bi bi-chevron-left"></i> 
+                </button>
+                <button class="btn btn-primary" data-action="pgn-viewer#nextBtn">
+                    <i class="bi bi-chevron-right"></i> 
+                </button>
+                <button class="btn btn-primary" data-action="pgn-viewer#endBtn">
+                    <i class="bi bi-chevron-bar-right"></i> 
+                </button>
+            </div>
+
+            <button class="btn btn-primary w-50 mt-5" data-action="pgn-viewer#flipBtn">
+                <%= t(:flip_board) %>
+            </button>
+
+            <%= render "game/promote_to" %>
+        </div>
+    </div>
+
+    <div class="col-4 p-5">
+        <div class="my-3">
+            <h2>ANNOTATION</h2>
+            <p data-pgn-viewer-target="annotation"></p>
+        </div>
+        <%= content_tag(:div, "", data: {pgn_viewer_target: "state"}, class: "my-3") do %>
+            <h2><%= t(:state) %></h2>
+            <%= game.state %>
+        <% end %>
+        <%= content_tag(:div, "", data: {pgn_viewer_target: "fen"}, class: "my-3") do %>
+            <h2>FEN</h2>
+            <%= game.fen %>
+        <% end %>
+        <%= turbo_frame_tag dom_id(game, "pgn") do %>
+            <h2>PGN</h2>
+            <div>
+                <pre class="pgn" id="<%= dom_id(game, "pre_pgn") %>"><%= game.pgn %></pre>
+            </div>
+        <% end %>
+    </div>
+
+<% end %>

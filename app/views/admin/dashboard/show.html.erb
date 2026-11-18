@@ -1,0 +1,9 @@
+<div class="container">
+  <h1 class="text-center"><%= t(:admin) %></h1>
+
+  <%= @games.each do |game| %>
+    <%= render "admin/games/show", game: game %>
+  <% end %>
+
+  <%= render "admin/total_daily_views" %>
+</div>

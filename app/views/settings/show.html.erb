@@ -1,0 +1,40 @@
+<div id="settings" class="home-content">
+	<h3 class="text-center"><%= t(:settings) %></h3>
+
+	<%= form_with url: settings_path, scope: :setting, method: "put" do |form| %>
+
+		<div class="row my-2">
+			<div class="col-sm-6 col-md-3">
+				<p class="text-center"><%= t(:appearance) %></p>
+
+  				<div class="form-check">
+  					<%= form.radio_button :theme, "light", class: "form-check-input", 
+						checked: @theme == "light", onchange: "this.form.submit();" %>
+					<label for="setting_theme_light" class="form-check-label"><%= t(:light_theme) %></label>
+  				</div>
+	  			<div class="form-check">
+  					<%= form.radio_button :theme, "dark", class: "form-check-input", 
+						checked: @theme == "dark", onchange: "this.form.submit();" %>
+					<label for="setting_theme_dark" class="form-check-label"><%= t(:dark_theme) %></label>
+	  			</div>
+			</div>
+
+			<div class="col-sm-6 col-md-3">
+				<p class="text-center"><%= t(:locale) %></p>
+
+				<div class="form-check">
+  					<%= form.radio_button :locale, "es", class: "form-check-input", 
+						checked: I18n.locale == :es, onchange: "this.form.submit();" %>
+					<label for="setting_locale_es" class="form-check-label"><%= t(:spanish) %></label>
+				</div>
+				<div class="form-check">
+				  	<%= form.radio_button :locale, "en", class: "form-check-input", 
+						checked: I18n.locale == :en, onchange: "this.form.submit();" %>
+					<label for="setting_locale_en" class="form-check-label"><%= t(:english) %></label>
+				</div>
+			</div>
+		</div>
+
+		<%= render "chessboard_theme", form: form %>
+	<% end %>
+</div>

@@ -1,0 +1,9 @@
+<div class="cont-<%=message.user.id%>">
+    <div class="d-flex flex-row w-100 message-box msg-<%= message.user.id %>">
+        <%= image_tag message.user.avatar.variant(:micro), class: "rounded-circle", width: "26", height: "26" %>
+        <div class="ms-2 w-100 bg-msg-<%= @theme %>">
+            <p class= "mb-1"><%= message.body %></p>
+            <p class="ml-auto mb-1 custom-font-size"><%= time_ago_in_words(message.created_at) + t(:ago) %></p>
+        </div>
+    </div>
+</div>

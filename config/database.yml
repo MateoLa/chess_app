@@ -1,0 +1,65 @@
+# SQLite. Versions 3.8.0 and up are supported.
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem "sqlite3"
+#
+default: &default
+    adapter: postgresql
+    encoding: unicode
+    max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
+
+sqlite: &sqlite
+    adapter: sqlite3
+    max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    timeout: 5000
+
+development:
+    primary:
+        <<: *default
+        database: chess_pwa_development
+        username: <%= ENV.fetch("DB_USERNAME") %>
+        password: <%= ENV.fetch("DB_PASSWORD") %>
+        host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+    cache:
+        <<: *sqlite
+        database: storage/chess_pwa_development_cache
+        migrations_paths: db/cache_migrate
+    queue:
+        <<: *sqlite
+        database: storage/chess_pwa_development_queue
+        migrations_paths: db/queue_migrate
+    cable:
+        <<: *sqlite
+        database: storage/chess_pwa_development_cable
+        migrations_paths: db/cable_migrate
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+    <<: *sqlite
+    database: storage/chess_pwa_test
+
+# Store production database in the storage/ directory, which by default
+# is mounted as a persistent Docker volume in config/deploy.yml.
+production:
+    primary:
+        <<: *default
+        database: chess_pwa_production
+        username: <%= ENV.fetch("DB_USERNAME") %>
+        password: <%= ENV.fetch("DB_PASSWORD") %>
+        host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+    cache:
+        <<: *sqlite
+        database: storage/chess_pwa_production_cache
+        migrations_paths: db/cache_migrate
+    queue:
+        <<: *sqlite
+        database: storage/chess_pwa_production_queue
+        migrations_paths: db/queue_migrate
+    cable:
+        <<: *sqlite
+        database: storage/chess_pwa_production_cable
+        migrations_paths: db/cable_migrate

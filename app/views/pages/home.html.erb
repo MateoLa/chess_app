@@ -1,0 +1,37 @@
+<% notable = load_notable %>
+
+<div class="row home-content">
+    <div class="col-md-6 order-md-2 text-center pt-3">
+        <%= content_tag :div, id: "home", data: {
+            controller: "notable",
+            pgn: notable.pgn,
+            board_theme: @board_theme,
+            piece_theme: pieceTheme(@piece_theme)
+        } do %>
+            <div><%= notable.title + " - " + notable.year %></div>
+            <div class="mb-5"><%= notable.event + " - " + notable.site %></div>
+
+            <div class="my-2 mx-auto w-100" style="max-width: 500px;">
+                <%= render "game/player_card", id: 2, card: {name: notable.black, avatar: notable.bavatar} %>
+                <div id="board" style="max-width: 500px;"></div>
+                <%= render "game/player_card", id: 1, card: {name: notable.white, avatar: notable.wavatar} %>
+            </div>
+
+            <%= render "game/navigator", controller: "notable", pause: true %>
+            
+            <div class="my-3 d-hidden">
+                <h5><%= t(:annotation) %></h5>
+                <p data-notable-target="annotation"></p>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="col-md-3 order-md-1 d-flex flex-column vh-75 custom-font-size">
+        <p class="my-3">There are <strong><%= pluralize(@online_users, "User") %></strong> Online.</p>
+        <%= render template: "games/arena" %>
+    </div>
+
+    <div class="col-md-3 order-md-3">
+        <%= render "game/game_settings" %>
+    </div>
+</div>

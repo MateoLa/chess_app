@@ -1,0 +1,35 @@
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
+ARG RUBY_VERSION=3.4.4
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
+# Rails app lives here
+WORKDIR /rails
+
+# Install base packages
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips libpq-dev postgresql-client nano build-essential git libyaml-dev pkg-config && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Set development environment variables
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="production"
+#    BUNDLE_DEPLOYMENT="1" \ Freeze Gemfile.lock
+#    BUNDLE_FROZEN=false \ Unfreeze Gemfile.lock
+#    BUNDLE_GITHUB__COM="${GITHUB_TOKEN}:x-oauth-basic" \
+
+RUN gem install bundler -v 2.6.9
+
+# Install application gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy application code
+COPY . .
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# Start server via Thruster by default, this can be overwritten at runtime
+EXPOSE 80
+CMD ["./bin/thrust", "./bin/rails", "server"]

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+    <%= render "admin/shared/head" %>
+
+    <body>
+        <%= render "admin/shared/navbar" %>
+        <%= render "admin/shared/flash_messages" %>
+
+        <div class="row mx-2">
+            <aside class="col-12 col-lg-3 col-xl-2 pt-2 px-2">
+                <%= render "admin/shared/sidebar" %>
+            </aside>
+
+            <main class="col-12 col-lg-9 col-xl-10 pt-2 px-2">
+                <div class="row">
+                    <%= yield %>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
+

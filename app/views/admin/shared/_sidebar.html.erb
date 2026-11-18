@@ -1,0 +1,6 @@
+<ul class="nav nav-pills flex-column nav-fill">
+  <%= link_to t(:games), admin_games_path, class: "nav-link active", "aria-current": "page" %>
+  <%= link_to t(:users), url_for([:admin, User]), class: "nav-link" %>
+  <%= link_to t(:variants), url_for([:admin, Variant]), class: "nav-link" %>
+  <%= link_to t(:disabled), "#", class: "nav-link disabled", "aria-disabled": true %>
+</ul>

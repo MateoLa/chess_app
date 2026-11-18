@@ -1,0 +1,21 @@
+<h1>Users#show</h1>
+<p>Find me in app/views/users/show.html.erb</p>
+
+
+<%= render edit_devise_session_path %>
+
+
+<div class="col-xs-12 col-lg-4">
+  <div data-hook="account-avatar">
+    <div class="mb-3"><%= Spree.t(:user_avatar) %></div>
+    <div>
+      <% if @user.avatar.attached? %>
+        <%= link_to image_tag(main_app.url_for(@user.avatar), size: 150), spree.edit_user_avatar_path(@user), class: "mx-3" %>
+        <%= link_to inline_svg_tag("garbage_2.svg", class: "ml-2", width: 24, height: 24),
+          user_avatar_path(@user), method: :delete unless @user.avatar.filename.sanitized.include? "avatar" %>
+      <%  end %>
+    </div>
+  </div>
+
+
+</div>

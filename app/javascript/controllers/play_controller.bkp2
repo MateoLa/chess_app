@@ -1,0 +1,86 @@
+import { Controller } from "@hotwired/stimulus"
+import { get, set, setMany } from "idb-keyval";
+
+
+// Function to cache preferences when offline.
+const savePrefForSync = (pref) => {
+    setMany([
+        ["xToken", document.querySelector('meta[name="csrf-token"]').content],
+        ["syncPref", pref],
+    ]).then(() => {
+        // Register for background sync
+        return navigator.serviceWorker.ready;
+    }).then(registration => registration.sync.register("sync-pref")
+    ).catch(error => console.error("Sync registration failed: ", error))
+}
+
+// Save preferences when online.
+const botChallenge = (pref) => {
+    if (navigator.onLine) {
+        // Send challenge & prefs immediately
+        fetch("/game/engine.js", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"game": pref})
+        })
+    } else {
+        // if offline, save prefs for background sync.
+        savePrefForSync(pref);
+    }
+}
+
+
+// Connects to data-controller="variant"
+export default class extends Controller {
+	static targets = ["modeName", "modeValue", "variantIcon", "variantName", "variantId"];
+
+	connect() {
+		console.log("Play Buttons Controller Connected");
+	}
+
+	setMode(e) {
+		e.preventDefault();
+		this.modeNameTarget.textContent = this.translate(e.currentTarget.dataset.mode);
+		this.modeValueTarget.value = e.currentTarget.dataset.mode;
+	}
+
+	setVariant(e) {
+		e.preventDefault();
+		this.variantIconTarget.className = e.currentTarget.dataset.icon;
+		this.variantNameTarget.textContent = e.currentTarget.dataset.name;
+		this.variantIdTarget.value = e.currentTarget.dataset.id;
+	}
+
+    vsBot(e) {
+        e.preventDefault();
+        const pref = {
+            mode: this.modeValueTarget.value,
+            variant_id: this.variantIdTarget.value
+        };
+        params = JSON.stringify({"game": pref});
+
+//        window.location.href = "/game/engine.html?" + params;
+        botChallenge(pref);
+    }
+
+
+	translate(key) {
+    	const locale = "es";    // ToDo (dynamic locale change)
+
+    	const translations = {
+    		"en": {
+        		"960": "960 Chess",
+        		"classic": "Classic Chess"
+    		},
+    		"es": {
+        		"960": "Ajedrez 960",
+                "classic": "Ajedrez Clásico"
+    		},
+    	};
+
+	    return translations[locale][key];
+	}
+}
+

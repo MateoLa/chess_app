@@ -1,0 +1,52 @@
+<div class="container-fluid user-games">
+    <div class="mb-4">
+        <h3 class="text-center pb-3"><%= t(:games) %></h3>
+        <div class="row">
+            <% @games_inprogress.each do |game| %>
+                <div class="col-md-6 col-xl-4 col-xxl-3 my-2 mx-auto">
+                    <%= render "game/board", game: game %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <h3 class="text-center pb-3"><%= t(:games_played) %></h3>
+        <table class="table "table-<%= @theme %>" table-striped text-center">
+            <thead>
+                <tr>
+                    <th scope="col"><%= t(:time_control) %></th>
+                    <th scope="col"><%= t(:opponent) %></th>
+                    <th scope="col"><%= t(:result) %></th>
+                    <th scope="col"><%= t(:analyze) %></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @games_played.each do |game| %>
+                    <% variant = game.variant %>
+                    <% orientation = game.orientation(current_user) %>
+                    <% opponent = game.opponent(current_user) %>
+
+                    <% i_name = orientation === game.winner ? "check-circle" : "exclamation-triangle" %>
+                    <% i_class = orientation === game.winner ? "fs-4 text-success" : "fs-4 text-danger" %>
+                    <tr>
+                        <td class="align-middle">
+                            <i class="<%= variant.icon %>"></i>
+                            <%= variant.name %>
+                        </td>
+                        <td class="align-middle"><%= render "game/player_card", id: 1, card: playerCard(opponent) %></td>
+                        <td class="align-middle"><i class="bi bi-<%= i_name %>"></i></td>
+                        <td class="align-middle">
+                            <%= link_to game_path(game.id) do %>
+                                <i class="bi bi-eye fs-4"></i> 
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <h3><%= t(:see) %></h3>
+    <%= render partial: "layouts/players" %>
+</div>

@@ -1,0 +1,53 @@
+<% orientation = game.orientation(current_user) %>
+
+<div id="<%= dom_id game %>" class="d-flex justify-content-center p-5">
+
+    <%= content_tag(:div, "", data: {
+        controller: "chess", 
+        game_id: game.id,
+        player_id: current_user&.id, 
+        fen: game.fen,
+        pgn: game.pgn,
+        white_timer: game.white_timer,
+        black_timer: game.black_timer,
+        turn: game.turn,
+        updated_at: (game.updated_at.to_f*1000).to_i,
+        orientation: orientation,
+        board_theme: @board_theme,
+        action: "countdown:timer-info->chess#timerInfo"
+    }) do %>
+      
+        <%#= render "games/player_card", card: orientation === "white" ? SetCard(game, "black") : SetCard(game, "white") %>
+        <div id="board" style="width: 400px"></div>
+        <%#= render "games/player_card", card: orientation === "white" ? SetCard(game, "white") : SetCard(game, "black") %>
+    
+        <div class="my-2">
+            <button class="btn btn-primary" data-action="analyzer#startBtn">
+                <i class="bi bi-chevron-bar-left"></i> 
+            </button>
+            <button class="btn btn-primary" data-action="analyzer#prevBtn">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="btn btn-primary" data-action="analyzer#nextBtn">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+            <button class="btn btn-primary" data-action="analyzer#endBtn">
+                <i class="bi bi-chevron-bar-right"></i>
+            </button>
+        </div>
+
+        <%= render "game/promote_to" %>
+    <% end %>
+</div>
+
+<div class="row">
+    <%= content_tag(:div, "", data: {chess_target: "state"}, class: "my-3") do %>
+        <h1><%= t(:state) %></h1>
+        <%= game.state %>
+    <% end %>
+    <%= content_tag(:div, "", data: {chess_target: "fen"}, class: "my-3") do %>
+        <h1>FEN</h1>
+        <%= game.fen %>
+    <% end %>
+    <%= render "games/pgn", game: game %>
+</div>

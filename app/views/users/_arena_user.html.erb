@@ -1,0 +1,19 @@
+<div id="<%= dom_id(user) %>">
+    <% hide = user.status == "online" ? "" : "d-none" %>
+
+    <div class="w-100 my-2 d-flex align-items-center <%= hide %>">
+        <div class="icon-container">
+            <%= link_to image_tag(user.avatar.variant(:micro), class: 'chat_pfp'), user %>
+            <%= render "users/status", user: user %>
+        </div>
+        <div class="w-100 d-flex arena-user">
+            <%= link_to user.username, "", class: "w-100 mx-2 username link-body-emphasis",  
+                data: { player: user, action: "click->challenge-tx#challenge", turbo: false } %>
+            <%= link_to "\u{2694}", "", class: "ms-auto",
+                data: { player: user, action: "click->challenge-tx#challenge", turbo: false } %>
+        </div>
+    </div> 
+</div>
+
+<%# "users/arena_user" must be agnostic to current_user because it is rendered by Turbo %>
+

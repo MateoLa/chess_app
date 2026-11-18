@@ -1,0 +1,27 @@
+<% variant_id = UserPreference.get(:variant) %>
+<% variant = Variant.find_by_id(variant_id) %>
+
+<div class="dropdown">
+  <button class="btn btn-secondary w-100 m-1 custom-toggle" type="button" id="dropdownGameMode" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="<%= variant.icon %>"></i>
+    <%= t("var_name.#{variant.name}") %>
+  </button>
+
+  <ul class="dropdown-menu w-100 p-3" aria-labelledby="dropdownGameMode">
+
+    <% Variant.all.group_by(&:mode).each do |mode, variants| %>
+      <div class="row">
+        <p class= "m-1"> 
+          <i class="<%= Variant.icon(mode) %>"></i> 
+          <%= t("mode.#{mode}") %>
+        </p>
+
+        <% variants.each do |var| %>
+          <div class="col-4">
+            <%= link_to t("var_name.#{var.name}"), set_variant_path(variant: var.name), class: "btn btn-secondary w-100" %>
+          </div>
+        <% end %>                 
+      </div>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,9 @@
+<% inverted = @theme == "light" ? "dark" : "light"  %>
+
+<div class="d-none spinner" data-bs-theme="<%= inverted %>" data-challenge-tx-target="spinner">
+    <div class="spinner-card">
+        <div class="spinner-border m-4" style="width: 5rem; height: 5rem;" role="status"></div>
+        <div class="sr-only" data-challenge-tx-target="message"></div>
+        <div class="sr-only" data-challenge-tx-target="expire"></div>
+    </div>
+</div>

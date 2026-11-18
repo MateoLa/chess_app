@@ -1,0 +1,10 @@
+en:
+    # Active Record models configuration
+    activerecord:
+        attributes:
+            game:
+                mode_options:
+                    classic: Classic
+                    960: Chess 960
+
+

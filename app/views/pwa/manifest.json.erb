@@ -1,0 +1,68 @@
+{
+	"name": "Chess App",
+	"id": "chess-app-1.0.0"
+	"start_url": "/",
+	"display": "standalone",
+	"orientation": "portrait",
+	"scope": "/",
+	"description": "<%= t(:pwa_description) %>",
+	"theme_color": "white",
+	"background_color": "black",
+	"author": "Mateo Laiño",
+	"icons": [
+		{
+			"src": "<%= asset_path "icons/lion-192-maskable.png" %>",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "maskable"
+		},
+		{
+			"src": "<%= asset_path "icons/lion-192.png" %>",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "any"
+		},
+		{
+			"src": "<%= asset_path "icons/lion-512-maskable.png" %>",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		},
+		{
+			"src": "<%= asset_path "icons/lion-512.png" %>",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "any"
+		},
+	],
+	"screenshots" : [
+		{
+			"src": "<%= image_url("screenshots/homepage-wide.png") %>",
+			"sizes": "1280x720",
+			"type": "image/jpeg",
+			"form_factor": "wide",
+			"label": "<%= t(:pwa_label_homescreen) %>",
+		},
+		{
+			"src": "<%= image_url("screenshots/game-wide.png") %>",
+			"sizes": "1280x720",
+			"type": "image/jpeg",
+			"form_factor": "wide",
+			"label": "<%= t(:pwa_label_game) %>",
+		},
+		{
+			"src": "<%= image_url("screenshots/homepage-narrow.png") %>",
+			"sizes": "400x720",
+			"type": "image/jpeg",
+			"form_factor": "narrow",
+			"label": "<%= t(:pwa_label_homescreen) %>",
+		},
+		{
+			"src": "<%= image_url("screenshots/game-narrow.png") %>",
+			"sizes": "400x720",
+			"type": "image/jpeg",
+			"form_factor": "narrow",
+			"label": "<%= t(:pwa_label_game) %>",
+		}
+	]
+}

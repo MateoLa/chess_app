@@ -1,0 +1,156 @@
+en:
+  accept: Accept
+  account: Account
+  admin: Admin
+  admin_panel: Admin
+  ago: Ago
+  analyzer: Analyzer
+  anonymous: Anonymous
+  annotation: Annotation
+  appearance: Appearance
+  arena: Arena
+  auto_promote: Auto-promote (Queen)
+  base_time: Base Time (min)
+  black: Black
+  board: Board
+  board_settings: Board
+  board_style: Colors
+  board_summary: Boards Summary
+  borges1: In his heavy corner, the players <br>
+           rule their slow pieces. The board <br>
+           delays them until dawn in its severe <br>
+           environment in which two colors hate each other.
+  borges2: When the players has gone, <br >
+           when time has consumed them, <br >
+           certainly the rite has not ended.
+  borges3: In the East turned on this war <br >
+           whose amphitheater is today the hole Earth. <br >
+           Like the other, this is an infinite game.
+  borges4: Faint king, biased bishop, fierce queen, <br >
+           straight rock and crafty pawn <br >
+           over the black and white of the way <br >
+           seek and fight their armed battle.
+  borges5: They don't know that the pointed hand <br > 
+           of the player rules his destiny, <br >
+           they don't know that an adamantine hardness <br >
+           hold his will and his journey.
+  borges6: Also the player is a prisioner <br >
+           of another board <br >
+           of black nights and white days.
+  borges7: God moves the player and he moves the piece. <br >
+           What God behind God the plot begins <br >
+           of dust and time and dream and agony?
+  challenge_to: Challenge you to this game 
+  chat: Chat
+  chessboard: Chess Board
+  color: Color
+  computer: Computer
+  create: Create
+  create_game: Create Game
+  dark_theme: Dark Theme
+  dashboard: Dashboard
+  date:
+    formats: "%m-%d-%Y"
+  edit_account: Edit Account
+  email: Email
+  english: English
+  enjoy: Enjoy your game
+  fen: Fen
+  fen_load: Load Fen
+  flip_board: Flip Board
+  friends: Friends
+  game_vs_bot: Game vs Bot
+  games: Games
+  games_played: Games Played
+  general_chat: General Chat
+  guest: Guest
+  increment: Increment (sec)
+  install: Get the App
+  level: Skill
+  level_option:
+    advanced: Avanced
+    intermediate: Intermediate
+    beginner: Beginner
+  light_theme: Light Theme
+  load_more: Load More Messages
+  locale: Language
+  logout: Logout
+  message: Message
+  mode: Mode
+  mode_option:
+    classic: Classic
+    960: Chess 960
+  new_game: New Game
+  not_allowed: Access to this asset is not allowed
+  notable:
+    kasparovs_immortal: "Kasparov's Immortal"
+    the_immortal: "The Immortal"
+    the_evergreen: "The Evergreen"
+  online_game: Online Game
+  opponent: Opponent
+  pairing: Pairing...
+  password: Password 
+  password_confirmation: Password Confirmation
+  pgn_load: Load PGN
+  pgn_paste: Paste your PGN here
+  pgn_upload: Upload File
+  pieces: Pieces
+  play: Play
+  play_on_line: Online
+  play_vs_bot: vs Bot
+  profile: Profile
+  pwa_description: Online/offline Chess against Friends or Bots.
+  pwa_label_game: Game for Chess App
+  pwa_label_homescreen: Homescreen of Chess App
+  pwa_label_settings: Settings for Chess App
+  refuse: Refuse
+  remember_me: Remember me
+  result: Result
+  rooms: Rooms
+  search: Search
+  search_placeholder: Search Tournaments to Join...
+  see: See
+  send: Send
+  settings: Settings
+  show_score: Game Score
+  sign_in: Login
+  sign_up: Sign up
+  skill_level: Skill Level (1..20)
+  spanish: Spanish
+  speed: Speed
+  speed_option:
+    bullet: Bullet
+    blitz: Blitz
+    rapid: Rapid
+    classical: Classical
+    daily: Daily
+  standard: Standard
+  start_chatting: Start Chatting
+  state: State
+  successfully_created: Successfully created.
+  successfully_updated: Successfully updated.
+  system_default: System Default
+  terms: Terms
+  theme: Theme
+  time_forfeit: Time Forfeit
+  tournaments: Tournaments
+  username: Username
+  users: Users
+  variants: Variants
+  variant_option:
+    1+0: 1+0 
+    2+1: 2+1
+    3+0: 3+0
+    3+2: 3+2
+    5+0: 5+0
+    5+3: 5+3 
+    10+0: 10+0
+    10+5: 10+5
+    15+10: 15+10
+    30+0: 30+0
+    30+20: 30+20
+    1+hour: 1 hour
+    1+day:  1 day
+    3+days: 3 days
+    noone: Without Clock
+  white: White

@@ -1,0 +1,17 @@
+<%= content_tag :div, "vs-bot-game", data: {
+  controller: "engine",
+  id: game.id,
+  board_theme: @board_theme,
+  piece_theme: pieceTheme(@piece_theme)
+} do %>
+	<div style="width: 400px">
+		<%= render "game/player_card", id: 2, card: playerCard("vsbot") %>
+		<div class="position-relative">
+			<div id="board-<%= game.id %>"></div>
+			<%= render "game/promote_to" %>
+		</div>
+    	<%= render "game/player_card", id: 1, card: playerCard("guest") %>
+
+		<%= render "game/navigator", controller: "chess", pause: false %>
+	</div>
+<% end %>

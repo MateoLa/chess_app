@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "appearance_channel" %>
+<div id="appearance_channel"></div>
+
+<%= audio_tag "discord.mp3", id: 'audio-tag' %>
+<%= turbo_frame_tag "message_error" do %>
+    <%= render 'shared/message_error' %>
+<% end %>
+
+<div id="arena-container">
+    <div id="arena-panel" class="my-3 p-3 custom-font-size text-bg-<%= @theme %>" 
+        data-controller="challenge-tx" data-userid="<%= current_user&.id %>">
+
+        <div class="d-flex align-items-center">
+            <span><%= t(:arena) %></span>
+            <%= render "game/challenge_buttons" %>
+        </div>
+
+        <%= turbo_stream_from "arena_user" %>
+        <div id="arena_users_list">
+            <% @users.each do |user| %>
+                <% if current_user %>
+                    <%= render 'users/arena_user', user: user %>
+                <% else %>
+                    <%= render 'users/guest_arena', user: user %>
+                <% end %>
+            <% end %>
+        </div>
+
+        <%= render "game/challenge_spinner" %>
+    </div>
+</div>

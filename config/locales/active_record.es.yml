@@ -1,0 +1,29 @@
+es:
+    # Attributes names common to most models
+    #attributes:
+        #created_at: "Created at"
+        #updated_at: "Updated at"
+
+    # Default error messages
+    errors:
+        messages:
+            required: "es requerido"
+            taken: "ya ha sido utilizado"
+        errors:
+            messages:
+                inclusion: "Error de validación en: %{model}, attributo: %{attribute}"
+                record_invalid: "Error de validación: %{errors}"
+                restrict_dependent_destroy:
+                    has_one: "No se pudo borrar este registro porque tiene la dependencia %{record}"
+                    has_many: "No se puede borrar este registro porque tiene las dependencias %{record}"
+            models:
+                game:
+                    attributes:
+                        type:
+                            inclusion: El atributo "Type" debe ser definido.
+                user:
+                    attributes:
+                        password:
+                            too_short: La clave es muy corta. Intenta con al menos 6 caracteres.
+
+

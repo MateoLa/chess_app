@@ -1,0 +1,24 @@
+<% flash.each do |type, msg| %>
+  <% bootclass = {
+    notice: "alert-info", 
+    alert: "alert-danger",
+    info: "alert-info", 
+    error: "alert-danger", 
+    success: "alert-success"
+  }.fetch(type.to_sym, type.to_s) %>
+  <div class="alert <%= bootclass %> alert-dismissible fade show" role="alert">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<script>
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+  }, 7000);
+</script>
+
+
+

@@ -1,0 +1,144 @@
+import { Controller } from "@hotwired/stimulus"
+import consumer from "channels/consumer";
+import { Turbo } from "@hotwired/turbo-rails"
+
+
+export default class extends Controller {
+    static targets = [
+        "mode", "variant",
+        "spinner", "message", "expire",
+        "popup", "avatar", "challenger", "gamemode", "gamevariant"
+    ];
+
+    connect() {
+        this.subscription = this.cable();
+        console.log("Challenge Controller Connected");
+//        console.log(consumer.subscriptions.subscriptions.map(sub => sub.identifier));
+    };
+
+    cable() {
+        return consumer.subscriptions.create("ChallengeChannel", {
+            connected: () => {
+                // Called when the subscription is ready to use on the server
+                console.log("Challenge Channel Connected");
+            },
+            disconnected: () => {
+                // Called when the subscription has been terminated by the server
+                this.resetState();
+                console.log("Challenge Channel Disconnected");
+            },
+            // Called when there's incoming data on the websocket for this channel
+            received: (data) => this.handleCableResponse(data)
+        });
+    }
+
+    challenge(e) {
+        e.preventDefault();
+        this.pendingUrl = e.currentTarget.href
+        const player = JSON.parse(e.currentTarget.dataset.player);
+        this.messageTarget.textContent = this.translate("waiting") + " " + player.username;
+        this.timer = 60;
+        this.countdown();
+        this.spinnerTarget.classList.remove("d-none");
+        this.subscription.perform("challenge", {
+            player: player.id,
+            mode: this.modeTarget.value,
+            variant: this.variantTarget.value
+		});
+    };
+
+    accept() {
+        this.subscription.perform("accepted", {
+            mode: this.mode,
+            variant: this.variant,
+            challenger: this.challenger
+		});
+    }
+
+    reject() {
+        this.resetState();
+        this.subscription.perform("rejected", {
+            challenger: this.challenger
+		});
+    }
+
+    handleCableResponse(data) {
+        console.log("Cable Response Data: ", data)
+        if (data.event === "accepted" && this.pendingUrl) {
+            const finalUrl = this.pendingUrl.replace("GAME_ID", data.game_id)
+            this.pendingUrl = null
+            // Redirigimos usando Turbo Drive
+            Turbo.visit(finalUrl)
+        } 
+        if (data.event === "rejected") {
+            this.resetState();
+            alert("El contrincante rechazó el desafío.");
+        }
+        if (data.event == "propagate") { 
+            this.mode = data.mode;
+            this.variant = data.variant;
+            this.challenger = data.challenger;
+            this.avatarTarget.src = data.avatar;
+            this.challengerTarget.textContent = data.username;
+            this.gamemodeTarget.textContent = data.gamemode;
+            this.gamevariantTarget.textContent = data.gamevariant;
+            this.timer = 60;
+            this.countdown();
+            this.popupTarget.classList.remove("d-none"); 
+        }               
+    }
+
+    resetState() {
+        this.pendingUrl = null;
+        clearInterval(this.counter);
+        this.timer = null;
+        this.popupTarget.classList.add("d-none");
+        this.spinnerTarget.classList.add("d-none");    
+    }
+
+
+    disconnect() {
+        this.subscription.unsubscribe();
+    }
+
+    
+///////////////  Timer Functions
+    countdown() {
+        this.expireTargets.forEach((el) => el.textContent = this.formatTimer());
+    	this.counter = setInterval(() => {
+            this.timer--;
+            this.expireTargets.forEach((el) => el.textContent = this.formatTimer());
+    		if (this.timer <= 0) { this.timeout(); }
+        }, 1000);
+	}
+
+	timeout() {
+        this.resetState();
+        alert("No Players OnLine");
+	}
+
+
+/////////////////  Other Functions
+	formatTimer() {
+		let min = Math.floor(this.timer / 60);
+      	let sec = this.timer - min * 60;
+		return ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2);
+  	}
+
+	translate(key) {
+    	const locale = "es";    // ToDo (dynamic locale change)
+
+    	const translations = {
+    		"en": {
+        		"pairing": "Pairing ...",
+        		"waiting": "Waiting for "
+    		},
+    		"es": {
+        		"pairing": "Emparejando ...",
+        		"waiting": "Esperando por "
+    		},
+    	};
+
+	    return translations[locale][key];
+	}
+}

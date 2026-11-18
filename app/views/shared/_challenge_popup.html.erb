@@ -1,0 +1,32 @@
+<% inverted = @theme == "light" ? "dark" : "light"  %>
+
+<div class="d-none spinner custom-font-size" data-bs-theme="<%= inverted %>" data-challenge-rx-target="popup">
+    <div class="spinner-card p-5">
+        <div id="challenger" class="w-100">
+            <div class="w-100 d-flex py-2">
+                <div class="icon-container">
+                    <img data-challenge-rx-target="avatar" alt="avatar" src="" class="chat_pfp" />
+                </div>
+                <div class="w-100 d-flex mx-2 p-2 border border-2 rounded-2 bs-body">
+                    <span class="w-100 mx-2 username" data-challenge-rx-target="challenger"></span>
+                    <span class="ms-auto"><%= "\u{1F1FA}" "\u{1F1FE}" %></span>
+                </div>
+            </div>
+            <div class="w-100 d-flex py-2">
+                <span><%= t(:challenge_to) %></span>
+                <div class="ps-3">
+                    <span class="mx-2 p-2 border border-2 rounded-2 bs-body" data-challenge-rx-target="gamemode"></span>
+                    <span class="mx-2 p-2 border border-2 rounded-2 bs-body" data-challenge-rx-target="gamevariant"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="spinner-border m-4" style="width: 3rem; height: 3rem;" role="status"></div>
+        <div class="sr-only" data-challenge-rx-target="expire"></div>
+
+        <div class="w-100 my-2 d-flex justify-content-evenly">
+            <span class="mx-2 p-2 border border-2 rounded-2 text-bg-color" data-action="click->challenge-rx#accept"><%= t(:accept) %></span>
+            <span class="mx-2 p-2 border border-2 rounded-2 text-bg-color" data-action="click->challenge-rx#reject"><%= t(:refuse) %></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div id="vsbot" class="row">
+    <div class="col-md-6 order-md-2 text-center pt-3">
+        <%= content_tag :div, data: {
+            controller: "engine",
+            token: @token,
+    		game_id: @game.id,
+            mode: @game.mode,
+			orientation: @color,
+        	white_timer: @game.white_timer,
+        	black_timer: @game.black_timer,
+    	    increment: @variant.time_increment,
+        	fen: @game.fen,
+			level: @game.level,
+            updated_at: @game.updated_at.to_f,
+            board_theme: @board_theme,
+            piece_theme: pieceTheme(@piece_theme),
+			wasm_disgest: asset_path('mala/sf18.wasm')
+        } do %>
+            <div><%= t(:game_vs_bot) %></div>
+
+            <div class="my-2 mx-auto w-100" style="max-width: 500px;">
+                <%= render "game/card_bot", color: @color %>
+                <div id="board" class="w-100 mx-auto" style="max-width: 500px;"></div>
+                <%= render "game/card_current", color: @color %>
+				<%= render "game/promotion" %>
+            </div>
+
+            <%= render "game/navigator", controller: "engine", pause: false %>
+
+            <div class="my-3">
+                <h5><%= t(:annotation) %></h5>
+                <p data-engine-target="evaluation"></p>
+            </div>
+
+            <div class="my-3">
+                <h5><%= t(:state) %></h5>
+                <p data-game-target="state"></p>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="col-md-3 order-md-1 d-flex flex-column vh-75 custom-font-size">
+        <p class="my-3">There are <strong><%= pluralize(@online_users, "User") %></strong> Online.</p>
+        <%= render template: "games/arena" %>
+    </div>
+
+    <div class="col-md-3 order-md-3">
+        <%= render "game/game_settings" %>
+    </div>
+</div>

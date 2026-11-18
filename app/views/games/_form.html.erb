@@ -1,0 +1,15 @@
+
+<%= form_with model: @game do |f| %>
+  <div class="form-inputs">
+    <%= f.text_field :state, input_html: { class: "mb-3"} %>
+    <%= f.text_field :turn, collection: [['White', 'w'], ['Black', 'b'], ['Random', 'r']], input_html: { class: "mb-3"} %>
+    <%= f.text_field :fen, input_html: { class: "mb-3"} %>
+    <%= f.text_field :pgn, input_html: { class: "mb-3"} %>
+    <%= f.text_field :white_player_id, input_html: { class: "mb-3"}, as: :string %>
+    <%= f.text_field :black_player_id, input_html: { class: "mb-3"}, as: :string %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit t(:create_game), class: "btn btn-primary" %>
+  </div>
+<% end %>

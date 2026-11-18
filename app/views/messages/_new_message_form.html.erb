@@ -1,0 +1,36 @@
+<div class="form-group msg-form">
+  <%= form_with(model: [@single_room, @message], remote: true, class:'d-flex',
+    data: { controller: "message-form", action: "turbo:submit-end->message-form#reset"}, 
+    id: "message-form") do |f| %>
+    <div id="attachment-previews" 
+      class="d-none"
+      data-controller="message-preview"
+      data-action="message-preview#preview"
+      >
+    </div>
+    <i class="bi bi-mic microphone-icon" id="audio-record-button"></i>
+    <div class="image-upload">
+      <label for="message_attachments">
+        <i class="bi bi-plus-circle upload-button"></i>
+      </label>
+      <%= f.file_field(:attachments, multiple: true, 
+        data: { controller: "message-preview", action:"change->message-preview#preview"}, direct_upload: true) %>
+    </div>
+
+    <%= content_tag(:div, "", class:"pickerContainer", data: { message_form_target: "pickerContainer" }) %>
+    <div class="input-group mb-3 px-1">
+      <span id="emoji-picker" class="input-group-text emoji-picker">😀</span>
+      <%= f.text_field :body, id: 'chat-text',
+        data: { message_form_target: "messageBody" },
+        class: 'form-control msg-content',
+        placeholder: t(:message),
+        autocomplete: 'off' %>
+    </div>      
+    <%= f.submit t(:send),
+      data: {disable_with: false, 
+      controller: "message-preview", 
+      action:"click->message-preview#clearPreviews"}, 
+      class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,25 @@
+.custom-toggle {
+	position: relative;
+}
+
+.custom-toggle::after {
+	content: "";
+	position: absolute;
+	right: 6px;
+	top: 45%;
+  
+	/* 1. Creamos un cuadrado pequeño sin fondo */
+	width: 6px;
+	height: 6px;
+	background: transparent;
+  
+	/* 2. Dibujamos solo dos bordes (derecho e inferior) */
+	border-right: 1px solid;
+	border-bottom: 1px solid;
+  
+	/* 3. Rotamos el cuadrado 45 grados para que apunte hacia abajo */
+	transform: translateY(-50%) rotate(45deg);
+  
+	/* Permite hacer clic a través de la flecha para abrir el select */
+	pointer-events: none; 
+}

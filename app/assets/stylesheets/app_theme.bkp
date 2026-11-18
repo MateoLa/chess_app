@@ -1,0 +1,18 @@
+:root {
+    color-scheme: light dark;
+    --accent: light-dark(#ced4da, #343a40);
+    --light-bg-color: white;
+    --light-text-color: white;
+    --dark-bg-color: #23222b;
+    --dark-text-color: black;
+}
+
+.light {
+    background-color: var(--light-bg-color);
+    color: var(--dark-text-color);
+}
+.dark {
+    background-color: var(--dark-bg-color);
+    color: var(--light-text-color);
+}
+

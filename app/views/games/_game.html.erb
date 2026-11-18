@@ -1,0 +1,45 @@
+<% orientation = game.orientation(current_user) %>
+<% opponent = game.opponent(current_user) %>
+
+<div id="<%= dom_id game %>" class="d-flex justify-content-center p-5">
+	<%= content_tag :div, "", data: {
+		controller: "chess",
+		game_id: game.id,
+    	mode: game.mode,
+    	player_id: current_user&.id, 
+    	fen: game.fen,
+    	pgn: game.pgn,
+    	white_timer: game.white_timer,
+    	black_timer: game.black_timer,
+    	increment: game.time_increment,
+    	updated_at: game.updated_at.to_f,
+		orientation: orientation,
+    	piece_theme: pieceTheme(@piece_theme),
+    	board_theme: @board_theme
+    	} do %>
+
+		<div style="width: 400px">
+			<%= render "game/player_card", id: 2, card: playerCard(opponent, orientation == "white" ? game.black_timer : game.white_timer) %>
+			<div class="position-relative">
+	    		<div id="board-<%= game.id %>"></div>
+				<%= render "game/promote_to" %>
+			</div>
+    		<%= render "game/player_card", id: 1, card: playerCard(current_user, orientation == "white" ? game.white_timer : game.black_timer) %>
+
+			<%= render "game/navigator", controller: "chess", pause: false %>
+		</div>
+    
+		<div class="my-3">
+    		<h1><%= t(:state) %></h1>
+    		<p data-chess-target="state"><%= game.state %></p>
+  		</div>
+		<div class="my-3">
+    		<h1>FEN</h1>
+    		<p data-chess-target="fen"><%= game.fen %></p>
+		</div>
+
+	<% end %>
+</div>
+
+<%= render "game/pgn", game: game %>
+

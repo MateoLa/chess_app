@@ -1,0 +1,52 @@
+
+<div id="player-form" class="my-3 p-3 text-bg-<%= @theme %>">
+    <div class="d-flex align-items-center my-2">
+        <%= image_tag("svg/person2.svg", class: "rounded-circle", width: 18, height: 18) %>
+        <div class="ms-3"><%= t(:play_online) %></div>
+    </div>
+
+    <%= form_with url: games_pairing_path, method: :post, data: {
+        controller: "pairing", 
+        userid: current_user&.id,
+        action: "submit->pairing#recruit",
+        turbo: false
+        }, scope: :pairing  do |form| %>
+
+        <div class="my-2 row">
+            <div class="col-12 col-md-3 align-self-center">
+                <span><%= t(:mode) %></span>
+            </div>
+            <div class="col-12 col-md-9">
+                <%= form.select :mode, mode_select_options, {selected: @mode}, {
+                    id: "pairing-mode",
+                    class: "w-100 custom-font-size text-bg-#{@theme}",
+                    aria: { label: "Pairing Mode" },
+                    data: { pairing_target: "mode" }
+                } %>
+            </div>
+        </div>
+
+        <div class="my-2 row">
+            <div class="col-12 col-md-3 align-self-center">
+                <span><%= t(:speed) %></span>
+            </div>
+            <div class="col-12 col-md-9">
+                <%= form.select :variant_id, variant_select_options.join.html_safe, {selected: @variant.id}, {
+                    id: "arena-variant", 
+                    class: "w-100 custom-font-size text-bg-#{@theme}",
+                    aria: { label: 'Arena Variant' }, 
+                    data: { pairing_target: "variant" }
+                } %>
+            </div>
+        </div>
+
+        <%= render "game/pairing_spinner" %>
+        <%= form.hidden_field :color, data: {pairing_target: "color"} %>
+        <%= form.hidden_field :game_id, data: {pairing_target: "game"} %>
+        <%= form.hidden_field :token, data: {pairing_target: "token"} %>
+
+        <div class="mt-3 text-center">
+	        <%= form.submit t(:play), class: "w-50 btn btn-outline-success custom-font-size" %>
+        </div>
+    <% end %>
+</div>

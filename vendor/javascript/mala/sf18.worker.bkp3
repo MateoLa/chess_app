@@ -1,0 +1,34 @@
+import xx from "sf";
+
+export let sf;
+
+
+let loadWasm = async (digestedWasmUrl) => {
+    const Module = {
+        instantiateWasm: async (imports, success) => {
+            try {
+                const response = await fetch(digestedWasmUrl);
+                const result = await WebAssembly.instantiateStreaming(response, imports);
+                success(result.instance, result.module);
+            } catch (err) { console.log ("MaLa Wasm loading failure: ", err) }
+        },
+        printErr: (text) => { console.warn('MaLa C++ error: ', text); },
+        print: (text) => { self.postMessage(text) },
+        onRuntimeInitialized: () => {
+            console.log("sf Module Loaded");
+            Module.wasm_uci = Module.cwrap('wasm_uci', null, ['string']);
+        }
+    }
+
+    sf = await xx(Module);
+}
+
+
+self.onmessage = async (e) => {
+    console.log("MaLa WORKER - cmd: ", e.data);
+    if (e.data.type === 'INIT_WASM') { loadWasm(e.data.wasm_digest); }
+    if (e.data.type === 'CMD') { sf.wasm_uci(e.data); }
+}
+
+
+

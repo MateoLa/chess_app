@@ -1,0 +1,23 @@
+<div id="navigator" class="my-2 text-center">
+    <button class="btn btn-outline-success" data-action="<%= controller %>#startBtn">
+        <i class="bi bi-chevron-bar-left"></i>
+    </button>
+    
+    <button class="btn btn-outline-success" data-action="<%= controller %>#prevBtn">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <% if pause %>
+        <button class="btn btn-outline-success" data-action="<%= controller %>#pauseBtn">
+            <i class="bi bi-pause"></i>
+        </button>
+    <% end %>
+
+    <button class="btn btn-outline-success" data-action="<%= controller %>#nextBtn">
+        <i class="bi bi-chevron-right"></i>
+    </button>
+
+    <button class="btn btn-outline-success" data-action="<%= controller %>#endBtn">
+        <i class="bi bi-chevron-bar-right"></i> 
+    </button>
+</div>

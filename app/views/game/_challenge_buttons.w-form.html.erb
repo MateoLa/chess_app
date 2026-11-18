@@ -1,0 +1,30 @@
+<div id="arena-buttons" class="ms-auto text-bg-<%= @theme %>">
+    <div>
+        <%= form.select :mode, mode_select_options, {selected: @mode}, {
+            id: "arena-mode",
+            class: "w-100 custom-font-size text-bg-#{@theme} border-#{@theme}",
+            aria: { label: "Arena Mode" },
+            data: { challenge_target: "mode" }
+        } %>
+    </div>
+
+    <div>
+        <%= form.select :variant_id, {}, {selected: @variant.id}, {
+            id: "arena-variant", 
+            class: "w-100 custom-font-size text-bg-#{@theme} border-#{@theme}",
+            aria: { label: 'Arena Variant' }, 
+            data: { challenge_target: "variant" }
+        } do %>
+            <button>
+                <selectedcontent></selectedcontent>
+            </button>
+            <% variant_select_options.each do |opt| %>
+                <option value="<%= opt[:value] %>" <%= 'selected' if opt[:value] == @variant.id %>>
+                    <span aria-hidden="true"><%= opt[:emo] %></span>
+                    <span><%= opt[:text] %></span>
+                    <span><%= opt[:speed] %></span>
+                </option>
+            <% end %>
+        <% end %>
+    </div>
+</div>

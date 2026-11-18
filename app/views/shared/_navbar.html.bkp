@@ -1,0 +1,76 @@
+<nav id="navbar" class="navbar navbar-expand-lg fixed-top bg-<%= @theme %>">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand mx-auto mx-lg-5" href="/">
+            <%= image_tag "logos/lion-head-in-shield.png", width: "60", height: "60" %>
+            <em class="d-none d-lg-inline mx-3">Chess App</em>
+        </a>
+
+        <div class="d-flex order-lg-1 navbar-nav dropdown dropstart mx-5">
+            <% image = current_user ? 
+                image_tag(current_user.avatar.variant(:inline), class: "rounded-circle", width: 36, height: 36) :
+                inline_svg("svg/person.svg", class: "rounded-circle", width: 36, height: 36)
+            %>
+            <%= link_to image, "#", 
+                class: "nav-link p-0 rounded-circle focus-ring",
+                role: "button", "data-bs-toggle": "dropdown",
+                "aria-expanded": "false", 
+                "aria-haspopup": "true" %>
+
+            <ul class="dropdown-menu position-absolute top-100 end-100">
+                <% if current_user %>
+                    <li><%= link_to t(:account), user_path(current_user), class: 'dropdown-item' %></li>
+                    <% if current_user&.admin? %>
+                        <li><%= link_to t(:dashboard), admin_dashboard_path, class: 'dropdown-item' %></li>
+                    <% end %>
+                    <li><%= link_to t(:logout), destroy_user_session_path, class: 'dropdown-item', method: :delete, data: {turbo_method: :delete} %></li>
+                <% else %>
+                    <li><%= link_to t(:sign_in), new_user_session_path, class: 'dropdown-item', method: :get %></li>
+                    <li><%= link_to t(:sign_up), new_user_registration_path, class: 'dropdown-item', method: :get %></li>
+                <% end %>
+            </ul>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <% if current_user %>
+                    <li class="nav-item">
+                        <%= link_to t(:games), user_games_path(current_user), class: 'nav-link' %>
+                    </li>
+                <% end %>
+                <li class="nav-item">
+                    <%= link_to t(:create), new_game_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to t(:analyzer), game_analyzer_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to t(:settings), settings_path, class: 'nav-link' %>
+                </li>
+                <% if current_user %>
+                    <li class="nav-item">
+                        <%= link_to t(:see), games_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:account), user_path(current_user), class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:friends), rooms_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:chat), rooms_path, class: 'nav-link' %>
+                    </li>
+                <% end %>
+            </ul>
+
+            <%= form_with url: "/search", class: "d-flex mx-auto mb-2", role: "search", method: :get do |form| %>
+                <%= form.search_field :query, class: "form-control me-2", type: "search", placeholder: t(:search), "aria-label": t(:search) %>
+                <%= form.submit t(:search), class: "btn btn-outline-success" %>
+            <% end %>
+        </div>
+
+    </div>
+</nav>

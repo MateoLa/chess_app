@@ -1,0 +1,19 @@
+<div id="arena-buttons" class="ms-auto text-bg-<%= @theme %>">
+    <div>
+        <%= select_tag :mode, options_for_select(mode_select_options, @mode), {
+            id: "challenge-mode",
+            class: "w-100 custom-font-size text-bg-#{@theme} border-0",
+            aria: { label: "Challenge Mode" },
+            data: { challenge_tx_target: "mode" }
+        } %>
+    </div>
+
+    <div>
+        <%= select_tag :variant_id, options_for_select(variant_select_options.join.html_safe, @variant.id), {
+            id: "challenge-variant", 
+            class: "w-100 custom-font-size text-bg-#{@theme} border-0",
+            aria: { label: 'Challenge Variant' }, 
+            data: { challenge_tx_target: "variant" }
+        } %>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<%= content_tag :div, "engine-game", class: "row", data: {
+  controller: "engine",
+  board_theme: @board_theme,
+  piece_theme: @piece_theme
+} do %>
+
+  <div class="col-8 text-center">
+    <div class="mx-auto" style="width: 400px">
+      <span class="h5 d-flex justify-content-end my-2" id="time1">0:05:00</span>
+      <%#= render "games/player_card", card: orientation === "white" ? SetCard(game, "black") : SetCard(game, "white") %>
+      <div id="board"></div>
+      <%#= render "games/player_card", card: orientation === "white" ? SetCard(game, "white") : SetCard(game, "black") %>
+      <span class="h5 d-flex justify-content-end my-2" id="time2">0:05:00</span>
+    </div>
+    
+    <div class="my-2">
+      <button class="btn btn-primary" data-action="analyzer#startBtn">
+        <i class="bi bi-chevron-bar-left"></i>
+      </button>
+      <button class="btn btn-primary" data-action="analyzer#prevBtn">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button class="btn btn-primary" data-action="analyzer#nextBtn">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <button class="btn btn-primary" data-action="analyzer#endBtn">
+        <i class="bi bi-chevron-bar-right"></i>
+      </button>
+    </div>
+    <hr>
+    <div id="engineStatus">...</div>
+    <div class="my-3">
+      <h5><%= t(:pgn) %></h5>
+      <pre id="pgn"></pre>
+    </div>
+    <%= render "game/promote_to" %>
+  </div>
+
+  <div class="col-4 p-5">
+    <div class="my-2">
+      <label for="timeBase" class="col-sm-8 col-form-label"><%= t(:base_time) %></label>
+      <input type="number" class="form-control" id="timeBase" value="5">
+    </div>
+    <div class="my-2">
+      <label for="timeInc" class="col-sm-8 col-form-label"><%= t(:increment) %></label>
+      <input type="number" class="form-control" id="timeInc" value="2">
+    </div>
+    <div class="my-2">
+      <label for="skillLevel" class="col-sm-8 col-form-label"><%= t(:skill_level) %></label>
+      <input type="number" class="form-control" id="skillLevel" value="0">
+    </div>
+    <div class="my-2">
+      <legend class="col-sm-3 col-form-label"><%= t(:color) %></legend>
+      <div class="d-inline-block">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="color" id="color-white" checked>
+          <label class="form-check-label" for="color-white"><%= t(:white) %></label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="color" id="color-black">
+          <label class="form-check-label" for="color-black"><%= t(:black) %></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-check form-switch my-2">
+      <input class="form-check-input" type="checkbox" id="showScore" role="switch" name="showScore" checked>
+      <label for="showScore" class="form-label"><%= t(:show_score) %></label>
+    </div>
+    <div class="form-check form-switch my-2">
+      <input class="form-check-input" type="checkbox" id="auth-promotion" role="switch" name="promotion">
+      <label for="auth-promotion" class="form-label"><%= t(:authomatic_promotion) %></label>
+    </div>
+
+    <button class="btn btn-primary w-50 my-2" data-action="analyzer#flipBtn">
+      <%= t(:flip_board) %>
+    </button>
+
+    <h5>Evaluation</h5>
+    <pre id=evaluation></pre>
+  </div>
+
+<% end %>

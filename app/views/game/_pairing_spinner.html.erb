@@ -1,0 +1,9 @@
+<% inverted = @theme == "light" ? "dark" : "light"  %>
+
+<div class="d-none spinner" data-bs-theme="<%= inverted %>" data-pairing-target="spinner">
+    <div class="spinner-card">
+        <div class="spinner-border m-4" style="width: 5rem; height: 5rem;" role="status"></div>
+        <div class="sr-only"><%= t(:pairing) %></div>
+        <div class="sr-only" data-pairing-target="expire"></div>
+    </div>
+</div>

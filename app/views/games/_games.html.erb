@@ -1,0 +1,7 @@
+<% games.each do |game| %>
+  <%= render "games/game", game: game %>
+  <p>
+    <%= link_to "Show this game", game %>
+  </p>
+<% end %>
+

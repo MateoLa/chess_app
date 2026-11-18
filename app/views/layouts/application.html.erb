@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+    <%= render "shared/head" %>
+
+    <body data-controller="action-cable-reconnect challenge-rx" data-action-cable-reconnect-user-id-value="<%= current_user&.id %>">
+        <%= render "shared/navbar" %>
+        <%= render "shared/flash" %>
+
+        <main class="w-100 pb-5 position-relative">
+            <%= image_tag "logos/lion-2d.png", class: "moving-logo" %>
+
+            <%= yield %>
+            <%#= render "shared/install" %>
+        </main>
+
+        <%= render "shared/challenge_popup" %>
+        <%= render "shared/footer" %>
+    </body>
+</html>

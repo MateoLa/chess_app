@@ -1,0 +1,13 @@
+<div id="current-card" class="d-flex align-items-center my-2 pe-3">
+	<% if current_user %>
+		<%= image_tag current_user.avatar.variant(:inline) %>
+		<%= content_tag :div, current_user.username, id: "current-name", class: "mx-2" %>
+	<% else %>
+		<%= image_tag "png/question-mark.png", size: "50x50" %>
+		<%= content_tag :div, t(:guest), id: "current-name", class: "mx-2" %>
+	<% end %>
+
+	<% timer = @color == "white" ? "wtimer" : "btimer" %>
+	<div id="current-timer" class="ms-auto" data-game-target="<%= timer %>"></div>
+</div>
+

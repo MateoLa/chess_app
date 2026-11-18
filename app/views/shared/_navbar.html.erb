@@ -1,0 +1,87 @@
+<nav id="navbar" class="navbar navbar-expand-lg fixed-top bg-<%= @theme %>" data-bs-theme="<%= @theme %>">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand mx-auto mx-lg-5" href="/">
+            <%= image_tag "logos/lion-in-shield-w.png", width: "60", height: "60" if @theme == "dark" %>
+            <%= image_tag "logos/lion-in-shield-b.png", width: "60", height: "60" if @theme == "light" %>
+            <em class="d-none d-lg-inline mx-3">Chess App</em>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAccount" aria-controls="navbarAccount" aria-expanded="false" aria-label="Toggle navigation">
+            <% if current_user %>
+                <%= image_tag(current_user.avatar.variant(:inline), class: "rounded-circle", width: 36, height: 36) %>
+            <% else %>
+                <%= inline_svg("svg/person2.svg", width: 36, height: 36) %>
+            <% end %>
+        </button>
+
+        <div class="order-lg-1 collapse navbar-collapse mx-5" id="navbarAccount">
+            <ul class="navbar-nav ms-auto">
+                <% if current_user %>
+                    <% if current_user&.admin? %>
+                        <li class="nav-item">
+                            <%= link_to t(:admin), admin_dashboard_path, class: 'nav-link' %>
+                        </li>
+                    <% end %>
+                    <li class="nav-item mx-3">
+                        <%= link_to user_path(current_user), class: "nav-link p-0" do %>
+                            <%= image_tag(current_user.avatar.variant(:inline), class: "rounded-circle", width: 36, height: 36) %>
+                        <% end %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:logout), destroy_user_session_path, class: 'nav-link', method: :delete, data: {turbo_method: :delete} %>
+                    </li>
+                <% else %>
+                    <li class="nav-item">
+                        <%= link_to t(:sign_in), new_user_session_path, class: 'nav-link', method: :get %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:sign_up), new_user_registration_path, class: 'nav-link', method: :get %>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <% if current_user %>
+                    <li class="nav-item">
+                        <%= link_to t(:games), user_games_path(current_user), class: 'nav-link' %>
+                    </li>
+                <% end %>
+                <li class="nav-item">
+                    <%= link_to t(:create), new_game_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to t(:analyzer), game_analyzer_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to t(:settings), settings_path, class: 'nav-link' %>
+                </li>
+                <% if current_user %>
+                    <li class="nav-item">
+                        <%= link_to t(:see), games_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:account), edit_user_registration_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:friends), rooms_path, class: 'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to t(:chat), rooms_path, class: 'nav-link' %>
+                    </li>
+                <% end %>
+            </ul>
+
+            <%= form_with url: "/search", class: "d-flex mx-auto mb-2", role: "search", method: :get do |form| %>
+                <%= form.search_field :query, class: "form-control me-2", type: "search", placeholder: t(:search), "aria-label": t(:search) %>
+                <%= form.submit t(:search), class: "btn btn-outline-success" %>
+            <% end %>
+        </div>
+
+    </div>
+</nav>

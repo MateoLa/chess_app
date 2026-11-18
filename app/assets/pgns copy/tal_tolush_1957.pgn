@@ -1,0 +1,53 @@
+[Event "USSR Championship"]
+[Site "Moscow URS"]
+[Date "1957.02.21"]
+[EventDate "1957.??.??"]
+[Round "21"]
+[Result "1-0"]
+[White "Tal, Mikhail"]
+[Black "Tolush, Alexander Kazimirovich"]
+[ECO "E80"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "83"]
+
+1.c4 {Notes by Stockfish 9 v010218 (minimum 6s/ply)} Nf6 2.Nc3
+g6 3.e4 d6 4.d4 Bg7 5.f3 e5 6.Nge2 Nbd7 7.Bg5 {7.Be3 was
+played in R Vera vs R Knaak, 1983 (1-0)} c6 8.Qd2 O-O 9.d5 c5
+{better is 9...h6 10.Be3 cxd5 11.cxd5 a6 12.Nc1 Nh7 13.Bd3 f5
++/= +0.52 (30 ply)} 10.g4 {+/= +1.23 (23 ply) after 10.Ng3 a6
+11.Bd3 Qc7 12.b3 h5 13.Nge2 Re8 14.O-O b6 } a6 {? 10...h6
+11.Be3 h5 12.h3 a6 13.b3 Ne8 14.a4 Nc7 15.Bg2 Rb8 +/= +0.85
+(23 ply)} 11.Ng3 {+/- +1.82 (22 ply)} Re8 {better is 11...b5
+12.cxb5 Nb6 13.h4 axb5 14.Nxb5 Ba6 15.a4 c4 +/- +1.60 (22
+ply)} 12.h4 {+/- +2.32 (23 ply)} Qa5 13.Bh6 Nf8 14.h5 Qc7
+15.Bd3 b5 16.O-O-O {? 16.Bxg7 Kxg7 17.cxb5 Kh8 18.b3 axb5
+19.Bxb5 Bd7 20.Bc4 +- +2.62 (22 ply)} bxc4 {better is
+16...Bxh6 17.Qxh6 b4 18.Nce2 Kh8 19.hxg6 fxg6 20.Qh4 Qf7 +/-
++1.74 (22 ply)} 17.Bb1 {? 17.Bxc4 Rb8 18.Bxg7 Kxg7 19.Rh2 Qe7
+20.Rdh1 Kh8 21.Kb1 +/- +2.37 (18 ply)} Bh8 {? 17...Bxh6
+18.Qxh6 Kh8 19.Nf5 Bxf5 20.exf5 Ng8 21.Qe3 +/= +1.00 (24 ply)}
+18.Rdg1 {+- +2.52 (21 ply)} Rb8 19.Nf5 N6d7 {? 19...Rb7 20.Qg5
+Bxf5 21.gxf5 Reb8 22.Rh2 Qe7 23.a3 Ne8 +/- +1.76 (19 ply)}
+20.Bg5 {better is 20.hxg6 fxg6 21.Bxf8 Nxf8 22.Nh6+ Kg7 23.f4
+exf4 24.Qxf4 +- +6.40 (22 ply)} Bg7 {+- +3.09 (25 ply)}
+21.Nxg7 Kxg7 22.Bh6+ {better is 22.hxg6 fxg6 23.Bc2 Kg8 24.Ba4
+Rb4 25.Qh2 Bb7 26.Qh6 Rb8 +- +3.27 (23 ply)} Kg8 {+/- +2.13
+(20 ply)} 23.f4 {? 23.Bc2 Qd8 24.Ba4 Re7 25.Bc6 Bb7 26.Rh2 Nf6
+27.Bg5 Rc7 +- +2.56 (21 ply)} exf4 {+/- +1.65 (24 ply)}
+24.Qxf4 Qd8 25.hxg6 Nxg6 26.Qh2 Nde5 {better is 26...Qf6
+27.Be3 Ndf8 28.Rf1 Qe5 29.Qh5 Qg7 30.Bh6 Qd4 +/= +1.30 (23
+ply)} 27.Bf4 {? 27.Bd2 Nf8 28.Qh6 Rb7 29.Bg5 f6 30.Bxf6 Qb6
+31.Na4 Qb5 +/- +2.03 (23 ply)} Nf8 {? 27...Qf6 28.Qxh7+ Kf8
+29.Qh6+ Qg7 30.Bxe5 Qxh6+ 31.Rxh6 = +0.31 (24 ply)} 28.Qh6
+{+/- +2.12 (25 ply)} Neg6 {? 28...Rb7 29.Bg5 f6 30.Bxf6 Qb6
+31.Na4 Qb5 32.Bxe5 dxe5 +/= +1.46 (25 ply)} 29.Bg5 {better is
+29.e5 Rxe5 30.Bxe5 dxe5 31.Bxg6 fxg6 32.Rf1 Rb7 33.Ne4 +-
++5.85 (25 ply)} f6 {+- +3.02 (26 ply)} 30.e5 Rxe5 31.Bxg6 Rb7
+32.Ne4 fxg5 {? 32...Rxg5 33.Bf5 Bxf5 34.Nxf6+ Kf7 35.Qxg5 Qxf6
+36.Qxf5 +- +2.66 (25 ply)} 33.Rf1 {+- +8.05 (26 ply)} Rxe4
+34.Bxe4 Rg7 35.Rf6 Bxg4 36.Rhf1 {+- mate-in-8 after 36.Bxh7+
+Nxh7 37.Rg6 Qf8 38.Qxh7+ Kf7 39.Rf1+} Nd7 37.Rxd6 Qe7 38.Rxa6
+Kh8 39.Bxh7 Nb8 40.Bf5 Kg8 41.Be6+ Bxe6 42.Rxe6 {42...Rh7
+43.Rg6+ Rg7 44.Rxg7+ Qxg7 45.Qe6+ Kh8 46.Qe8+ +- mate-in-8}
+1-0

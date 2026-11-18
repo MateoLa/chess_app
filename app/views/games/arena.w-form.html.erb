@@ -1,0 +1,49 @@
+<%= turbo_frame_tag "appearance_channel" %>
+<div id="appearance_channel"></div>
+
+<%= audio_tag "discord.mp3", id: 'audio-tag' %>
+<%= turbo_frame_tag "message_error" do %>
+    <%= render 'shared/message_error' %>
+<% end %>
+
+<div id="arena-container">
+    <div id="arena-panel" class="my-3 p-3 custom-font-size text-bg-<%= @theme %>" data-controller="challenge" data-userid="<%= current_user&.id %>">
+        <%= form_with url: game_challenge_path, id: "arena-form", method: :post, 
+            data: { challenge_target: "form", turbo: false }, scope: :challenge  do |form| %>
+
+            <div class="d-flex align-items-center">
+                <span><%= t(:arena) %></span>
+                <%= render "game/challenge_buttons", form: form %>
+            </div>
+
+            <%= turbo_stream_from "arena_user" %>
+            <div id="arena_users_list">
+                <% @users.each do |user| %>
+                    <% if current_user %>
+                        <%= render 'users/arena_user', user: user, form: form %>
+                    <% else %>
+                        <%= render 'users/guest_arena', user: user %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <%= render "game/challenge_spinner" %>
+            <%= render "game/challenge_popup" %>
+            <%= form.hidden_field :color, data: {challenge_target: "color"} %>
+            <%= form.hidden_field :game_id, data: {challenge_target: "game"} %>
+            <%= form.hidden_field :token, data: {challenge_target: "token"} %>
+        <% end %>      
+    </div>
+
+    <div id="tournaments" class="my-3 p-3 custom-font-size text-bg-<%= @theme %>">
+        <span><%= t(:tournaments) %></span>
+        <%= turbo_stream_from "rooms" %>
+        <%#= render 'room/new_room_form' %>
+        <%= render 'rooms/search_form' %>
+        <% if current_user %>
+            <div id="rooms" data-controller="room-list">
+                <%= render "rooms/rooms", rooms: @joined_rooms, user: current_user %>
+            </div>
+        <% end %>
+    </div>
+</div>

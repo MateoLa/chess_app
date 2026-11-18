@@ -1,0 +1,27 @@
+<% flash.each do |type, message| %>
+    <!-- Map flash types to corresponding Bootstrap CSS classes --!>
+    <% flash_class = case type
+        when "notice" then "alert-primary"
+        when "alert" then "alert-danger"
+        when "success" then "alert-success"
+        when "info" then "alert-info"    
+        else "alert-secondary"
+    end %>
+
+    <div class="alert <%= flash_class %> alert-dismissible fade show m-3" role="alert">
+        <p class="m-0"><%= message %></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% end %>
+
+<script>
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 7000);
+</script>
+
+
+
+

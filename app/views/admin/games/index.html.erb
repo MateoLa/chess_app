@@ -1,0 +1,28 @@
+<div class="container">
+  <h1 class="text-center">Games</h1>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">PGN</th>
+        <th scope="col">White</th>
+        <th scope="col">Black</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @games.each do |game| %>
+        <tr>
+          <th scope="row"><%= game.id %></th>
+          <td><%= link_to game.pgn.truncate(15), admin_game_path(game) %></td>
+          <td><%= game.white_player_id %></td>
+          <td><%= game.black_player_id %></td>
+          <td>
+            <%= link_to inline_svg_tag("garbage2.svg", class: "ml-2", width: 24, height: 24), 
+              admin_game_path(game), data: { "turbo-method": :delete } %>          
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

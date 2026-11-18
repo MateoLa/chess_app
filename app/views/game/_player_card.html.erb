@@ -1,0 +1,9 @@
+<%= content_tag :div, id: "card-#{id}", class: "d-flex align-items-center my-2 pe-3" do %>
+	<% if card[:avatar].present? %>  
+		<%= image_tag card[:avatar], size: "50x50" %>
+	<% else %>
+		<i class="bi bi-question" style="width: 50px; height: 50px"></i>
+	<% end %>
+	<%= content_tag :div, card[:name], id: "name-#{id}", class: "mx-2" %>
+	<%= content_tag :div, card[:timer], id: "timer-#{id}", class: "ms-auto" if card[:timer].present? %>
+<% end %>

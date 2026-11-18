@@ -1,0 +1,20 @@
+<div class="form-group">
+    <%= form_with(model: [@single_room, @message], remote: true, class:'d-flex',
+        data: { controller: "message-form", action: "turbo:submit-end->message-form#reset"}, 
+        id: "message-form") do |f| %>
+
+        <span id="emoji-picker" class="input-group-text emoji-picker">😀</span>
+        <%= f.text_field :body, id: 'chat-text',
+            data: { message_form_target: "messageBody" },
+            class: 'form-control msg-content custom-font-size',
+            placeholder: t(:message),
+            autocomplete: 'off' %>
+        <%= f.button type: "submit",
+            data: {disable_with: false, 
+            controller: "message-preview", 
+            action:"click->message-preview#clearPreviews"}, 
+            class: 'btn btn-outline-success custom-font-size' do %>
+            <i class="bi bi-forward"></i>
+        <% end %>     
+    <% end %>
+</div>

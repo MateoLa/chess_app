@@ -1,0 +1,36 @@
+<div class="mx-auto w-100 w-md-50 bg-light p-4 rounded">
+  <h3 class="mb-3"><%= t(:sign_up) %></h3>
+
+  <%= form_for resource, as: resource_name, url: registration_url(resource_name), clsss: "contents" do |f| %>
+    <div class="mb-3">
+      <%= f.text_field :username, required: true, autofocus: true, autocomplete: "username", placeholder: t(:username), class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.email_field :email, required: true, autocomplete: "email", placeholder: t(:email), class:"form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: t(:password), class:"form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.password_field :password_confirmation, required: true, autocomplete: "current-password", placeholder: t(:password_confirmation), class:"form-control" %>
+    </div>
+
+    <!--div class="mb-3 form-check">
+      <%#= f.label :terms, t(:terms), class:"form-check-label" %>
+      <%#= f.check_box :terms, class:"form-check-input" %>
+    </div--!>
+
+    <div class="mb-3">
+      <%= f.submit t(:sign_up), class:"btn btn-primary rounded" %>
+    </div>
+
+    <%= render "devise/shared/links" %>
+  <% end %>
+</div>
+

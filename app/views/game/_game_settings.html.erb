@@ -1,0 +1,15 @@
+<div id="game-settings" class="w-100 custom-font-size my-5">
+    <div class="d-flex align-items-center my-3 p-3 text-bg-<%= @theme %>">
+        <% if current_user %>
+            <%= image_tag(current_user.avatar.variant(:micro), class: "rounded-circle") %>
+            <div class="ms-3"><%= current_user.username %></div>
+        <% else %>
+            <%= image_tag("png/question-mark.png", class: "rounded-circle", width: 18, height: 18) %>
+            <div class="ms-3"><%= t(:anonymous) %></div>
+        <% end %>
+    </div>
+
+    <%= render "game/bot_buttons" %>
+    <%= render "game/pairing_buttons" %>
+</div>
+

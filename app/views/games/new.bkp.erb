@@ -1,0 +1,11 @@
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <div class="mb-3 col-6 col-md-4">
+    <h1><%= t(:new_game) %></h1>
+
+    <%= render "form", game: @game %>
+    <br>
+    <div>
+      <%= link_to "Back to games", games_path %>
+    </div>
+  </div>
+</div>

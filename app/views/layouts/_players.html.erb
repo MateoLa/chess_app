@@ -1,0 +1,14 @@
+<% @users.each do |user| %>
+	<div>
+		<% games = current_user.game_in_progress_with(user) %>
+		<p>You are playing <%= games.count %> games with </p>
+
+		<%= image_tag user.avatar.variant(:inline) if user.avatar.attached? %>
+		<%= user.email %>
+
+		<% games.each do |game| %>
+			<%= link_to "Continue Game", edit_game_path(game) %>
+		<% end %>
+		<%= render partial: "game/pairing_buttons", locals: { user: user } %>
+	</div>
+<% end %>

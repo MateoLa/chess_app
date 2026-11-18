@@ -1,0 +1,160 @@
+es:
+  accept: Aceptar
+  account: Cuenta
+  admin: Admin
+  admin_panel: Admin
+  ago: Atrás
+  analyzer: Análisis
+  anonymous: Anónimo
+  annotation: Anotación
+  appearance: Apariencia
+  arena: Arena
+  auto_promote: Auto-coronar (Dama)
+  base_time: Control de Tiempo (min)
+  black: Negras
+  board: Tablero
+  board_settings: Tablero
+  board_style: Colores
+  board_summary: Muestra de Tableros
+  borges1: En su grave rincón, los jugadores <br>
+           rigen las lentas piezas. El tablero <br>
+           los demora hasta el alba en su severo <br>
+           ámbito en que se odian dos colores.
+  borges2: Cuando los jugadores se hayan ido, <br >
+           cuando el tiempo los haya consumido, <br >
+           ciertamente no habrá cesado el rito.
+  borges3: En el Oriente se encendió esta guerra <br >
+           cuyo anfiteatro es hoy toda la Tierra. <br >
+           Como el otro, este juego es infinito.
+  borges4: Tenue rey, sesgo alfil, encarnizada reina, <br>
+           torre directa y peon ladino <br >
+           sobre lo negro y blanco del camino <br >
+           buscan y libran su batalla armada.
+  borges5: No saben que la mano señalada <br > 
+           del jugador gobierna su destino, <br >
+           no saben que un rigor adamantino <br >
+           sujeta su albedrío y su jornada.
+  borges6: También el jugador es prisionero <br > 
+           de otro tablero <br >
+           de negras noches y de blancos días.
+  borges7: Dios mueve al jugador, y éste la pieza. <br >
+           ¿Que Dios detrás de Dios la trama empieza <br >
+           de polvo y tiempo y sueño y agonía?
+  challenge_to: Te desafía a una partida
+  chat: Chat
+  chessboard: Tablero
+  color: Color
+  computer: Computadora
+  create: Crear
+  create_game: Crear Juego
+  days: Días
+  dark_theme: Tema Oscuro
+  dashboard: Dashboard
+  date:
+    formats: "%d-%m-%Y"
+  edit_account: Editar Cuenta
+  email: Email
+  english: Inglés
+  enjoy: Disfruta tu juego
+  fen: Fen
+  fen_load: Cargar Fen
+  flip_board: Girar Tablero
+  friends: Amigos
+  game_vs_bot: Partida vs Computadora
+  games: Partidas
+  games_played: Partidas Jugadas
+  general_chat: Chat General
+  guest: Invitado
+  hours: Horas
+  increment: Incremento (seg)
+  install: Instala la App
+  level: Nivel
+  level_option:
+    advanced: Avanzado
+    intermediate: Intermedio
+    beginner: Principiante
+  light_theme: Tema Claro
+  load_more: Cargar Más Mensajes
+  locale: Idioma
+  logout: Cerrar sesión
+  message: Mensaje
+  mode: Modo
+  mode_option:
+    classic: Clásica
+    960: Ajedrez 960
+  new_game: Nueva Partida
+  not_allowed: Acceso al recurso no permitido
+  notable:
+    kasparovs_immortal: "La Inmortal de Kasparov"
+    the_immortal: "La Inmortal"
+    the_evergreen: "La Siempreviva"
+  online_game: Partida Online
+  opponent: Oponente
+  pairing: Emparejando...
+  password: Contraseña
+  password_confirmation: Confirmar contraseña
+  pgn_load: Cargar PGN
+  pgn_paste: Pegue aquí su PGN
+  pgn_upload: Subir Archivo
+  pieces: Piezas
+  play: Jugar
+  play_on_line: Online
+  play_vs_bot: vs Bot
+  profile: Perfil
+  pwa_description: Ajedrez online/offline contra amigos o bots.
+  pwa_label_game: Juego en Chess App
+  pwa_label_homescreen: Página de Inicio de Chess App
+  pwa_label_settings: Ajustes de Chess App
+  refuse: Rechazar
+  remember_me: Recordar usuario
+  result: Resultado
+  rooms: Salas
+  search: Buscar
+  search_placeholder: Busca Torneos para Unirte...
+  see: Ver
+  send: Enviar
+  settings: Ajustes
+  show_score: Evaluar partida
+  sign_in: Iniciar Sesión
+  sign_up: Registrarse
+  skill_level: Dificultad (1..20)
+  spanish: Español
+  speed: Ritmo
+  speed_option:
+    bullet: Bala
+    blitz: Blitz
+    rapid: Rápida
+    classic: Clásica
+    daily: Diaria
+  standard: Estándar
+  start_chatting: Comenzar a Chatear
+  state: Estado
+  successfully_created: Partida creada correctamente.
+  successfully_updated: Partida actualizada correctamente.
+  system_default: Color del Sistema
+  terms: Términos
+  time_control: Reloj
+  time_forfeit: Tiempo Cumplido
+  theme: Tema
+  tournaments: Torneos
+  username: Nombre de usuario
+  users: Usuarios
+  variants: Modalidad
+  variant_option:
+    1+0: 1+0 
+    2+1: 2+1
+    3+0: 3+0
+    3+2: 3+2
+    5+0: 5+0
+    5+3: 5+3 
+    10+0: 10+0
+    10+5: 10+5
+    15+10: 15+10
+    30+0: 30+0
+    30+20: 30+20
+    1+hour: 1 hora
+    1+day:  1 día
+    3+days: 3 días    
+    noone: Sin Reloj
+
+  white: Blancas

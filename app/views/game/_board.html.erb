@@ -1,0 +1,25 @@
+<% orientation = game.orientation(current_user) %>
+<% opponent = game.opponent(current_user) %>
+
+<div class="d-flex justify-content-center">
+    <%= content_tag(:div, "", data: {
+        controller: "board", 
+        game_id: game.id,
+        turn: game.turn,
+        white_timer: game.white_timer,
+        black_timer: game.black_timer,
+        updated_at: game.updated_at.to_f,
+        fen: game.fen,
+        orientation: orientation,
+        piece_theme: pieceTheme(@piece_theme)
+        }) do %>
+
+        <div style="width: 300px">
+    		<%= render "game/player_card", id: "#{game.id}-2", card: playerCard(opponent, orientation == "white" ? game.black_timer : game.white_timer) %>
+            <%= link_to edit_game_path(id: game.id) do %>
+                <div id="board-<%= game.id %>"></div>
+            <% end %>
+            <%= render "game/player_card", id: "#{game.id}-1", card: playerCard(current_user, orientation == "white" ? game.white_timer : game.black_timer) %>
+        </div>
+    <% end %>
+</div>

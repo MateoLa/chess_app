@@ -1,0 +1,44 @@
+<%= content_tag(:div, "board-settings", data: {
+    controller: "board-settings",
+    board_theme: @board_theme,
+    piece_theme: pieceTheme(@piece_theme),
+}, class: "my-3") do %>
+    <p class="text-center"><%= t(:board_settings) %></p>
+
+    <div class="row align-items-center">
+        <div class="col-sm-6">
+            <div class="d-flex justify-content-center">
+                <div id="board" style="width: 400px" class="p-3"></div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="my-2">
+                <%= form.label "board_theme", t(:board_style), class: "col-sm-8 col-form-label" %>
+                <%= form.select "board_theme", options_for_select(@board_themes, @board_theme), {},
+                    { class: "form-select", "data-action": "board-settings#setBoard" } %>
+            </div>
+  
+            <div class="my-2">
+                <%= form.label "piece_theme", t(:pieces), class: "col-sm-8 col-form-label" %>
+                <%= form.select "piece_theme", options_for_select(@piece_themes, @piece_theme), {},
+                    { class: "form-select", "data-action": "board-settings#setPieces"} %>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+<div id="theme-summary">
+    <p class="text-center"><%= t(:board_summary) %></p>
+
+    <div class="row">
+        <% @board_themes.each do |board_theme| %>
+            <div class="col-sm-6 col-lg-3">
+                <p><%= board_theme %></p>
+                <div class="d-flex justify-content-center">
+                    <div id="board-<%= board_theme %>" style="width: 250px" class="p-3"></div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

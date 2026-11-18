@@ -1,0 +1,425 @@
+import { Controller } from "@hotwired/stimulus";
+import { Chess } from "chess.js";
+import Chessboard from "chessboardjs";
+import consumer from "channels/consumer";
+
+
+// Connects to data-controller="chess"
+export default class extends Controller {
+	static targets = ["promotionPiece", "state", "fen"];
+
+	connect() {
+    	console.log("Chess Controller Connected");
+    	this.gameId = this.element.dataset.gameId;
+	    this.player = this.element.dataset.orientation[0];
+		this.time = { 
+    		wtime: this.element.dataset.whiteTimer * 1000, 
+    		btime: this.element.dataset.blackTimer * 1000, 
+	    	increment: this.element.dataset.increment * 1000,
+			start: Date.now()
+    	};
+		this.pieceTheme = JSON.parse(this.element.dataset.pieceTheme);
+
+		let elapsed = Date.now() - (this.element.dataset.updatedAt * 1000);
+		this.element.dataset.turn == "w" ?
+			this.time.wtime = Math.max(0, this.time.wtime - elapsed) :
+			this.time.btime = Math.max(0, this.time.btime - elapsed);
+
+	    this.play();
+		this.sub = this.cable();
+    	this.countdown();
+	}
+
+	cable() {
+		return consumer.subscriptions.create({
+			channel: "GameChannel",
+        	game_id: this.gameId,
+      	}, {
+        	connected: () => {
+          		// Called when the subscription is ready for use on the server
+          		console.log("Game Channel Connected");
+        	},
+
+	        disconnected() {
+        		// Called when the subscription has been terminated by the server
+			},
+
+        	received: (data) => {
+        		// Called when there's incoming data on the websocket for this channel
+				if (data.timeout) {
+					this.updatePage(true);
+				} else {
+					if (this.player == data.turn) {
+						this.time.btime = data.btime;
+						this.time.wtime = data.wtime;
+						this.pgn = data.pgn;
+						this.game.loadPgn(this.pgn);
+						this.history = this.game.history();
+						this.index = this.history.length;
+        				this.board.position(data.fen);
+						this.toggleTimer();
+						this.updatePage();
+					}
+				}
+        	},
+    	});
+	}
+
+	play() {
+    	this.game = new Chess();
+    	this.game.load(this.element.dataset.fen);
+		this.pgn = this.element.dataset.pgn;
+    	this.game.loadPgn(this.pgn);
+    	this.whiteSquareGrey = "#a9a9a9";
+    	this.blackSquareGrey = "#696969";
+		this.history = this.game.history();
+		this.index = this.history.length;
+
+	    // Need to bind this to the class
+    	var config = {
+    		draggable: true,
+    		position: this.element.dataset.fen,
+    		orientation: this.element.dataset.orientation,
+    		onDragStart: this.onDragStart.bind(this),
+    		onDrop: this.onDrop.bind(this),
+    		onMouseoutSquare: this.onMouseoutSquare.bind(this),
+    		onMouseoverSquare: this.onMouseoverSquare.bind(this),
+    		onSnapEnd: this.onSnapEnd.bind(this),
+			pieceTheme: (piece) => this.pieceTheme[piece],
+//	  sparePieces: true   --> To edit your board.
+    	};
+
+    	this.board = Chessboard("board-" + this.gameId, config);
+    	this.gameOver();
+	}
+
+	removeGreySquares() {
+		$("#board .square-55d63").css("background", "");
+	}
+
+	greySquare(square) {
+		var $square = $("#board .square-" + square);
+
+		var background = this.whiteSquareGrey;
+		if ($square.hasClass("black-3c85d")) {
+			background = this.blackSquareGrey;
+		}
+
+		$square.css("background", background);
+	}
+
+	onMouseoverSquare(square, piece) {
+		if (this.game.turn() !== this.player) { return "snapback"; }
+
+		// get list of possible moves for this square
+		let moves = this.game.moves({
+			square: square,
+			verbose: true,
+		});
+
+		// exit if there are no moves available for this square
+		if (moves.length === 0) return;
+
+		// highlight the square they moused over
+		this.greySquare(square);
+
+		// highlight the possible squares for this piece
+		for (var i = 0; i < moves.length; i++) {
+			this.greySquare(moves[i].to);
+		}
+	}
+
+	onMouseoutSquare(square, piece) {
+    	this.removeGreySquares();
+  	}
+
+	onDragStart(source, piece) {
+		// do not pick up pieces if the game is over
+		if (this.gameOver()) { return false; }
+
+		// or if it's not that side's turn
+		if (this.game.turn() !== this.player) { return false; }
+
+		// only pick up pieces for the side to move
+		if ((this.game.turn() === "w" && piece.search(/^b/) !== -1) ||
+			(this.game.turn() === "b" && piece.search(/^w/) !== -1)) {
+			return false;
+		}
+
+		// cannot move if the game is not at its last position
+		if (this.history.length !== this.game.history().length) { return false }
+	}
+
+	onDrop(source, target) {
+		this.removeGreySquares();
+
+		// check player's turn
+		if (this.game.turn() !== this.player) { return "snapback"; }
+
+		let move = "";
+		this.promotion = this.isPromotion(source, target);
+
+		if (this.promotion) { 
+			this.promptForPromotion(source, target).then(response => { 
+				move = this.game.move({from: source, to: target, promotion: response});
+				this.isPromotion = false;
+				this.onSnapEnd();
+			})
+		} else { move = this.game.move({from: source, to: target}); }
+	
+		// illegal move
+		if (move === null) return "snapback";
+	}	
+
+	isPromotion(source, target) {
+		const piece = this.game.get(source);
+
+		if (piece?.type !== "p") { return false; }
+//		if (piece?.color !== this.game.turn()) { return false; }
+
+		if (!["1", "8"].some((it) => target.endsWith(it))) { return false; }
+
+		return this.game.moves({ square: source, verbose: true }).map(it => it.to).includes(target);
+	}
+
+	onSnapEnd() {
+		if (this.promotion) return;    // We need to select the piece first
+        this.board.position(this.game.fen());    // Update position for castling, en passant, pawn promotion
+		this.pgn = this.game.pgn();
+		this.history = this.game.history();
+		this.index = this.history.length;
+
+    	this.stopTimer();
+    	this.setComment();
+    	this.sendMove();
+		this.updatePage();
+    	this.startTimer();
+	}
+
+	sendMove() {
+		this.sub.perform("game_move", {
+			// move: this.game.history({ verbose: true }).pop(),
+			wtime: this.time.wtime,
+			btime: this.time.btime,
+			turn: this.game.turn(),
+    		state: this.gameState(),
+			fen: this.game.fen(),
+    		pgn: this.game.pgn()
+    	});
+console.log("send: " + this.game.pgn())
+console.log("send: " + this.game.fen())
+	}
+
+	gameState() {
+    	if (this.game.isCheckmate()) { return "checkmate"; }
+    	if (this.game.isDraw()) { return "draw"; }
+    	if (this.time.wtime == 0 || this.time.btime == 0) { return "timeout"; }
+    	return "in_progress";
+	}
+
+	gameOver() {
+    	// get state target
+    	if (this.game.isCheckmate()) { return true; }
+    	if (this.game.isDraw()) { return true; }
+    	if (this.time.wtime == 0 || this.time.btime == 0) { return true; }
+	}
+
+	setComment() {
+        let time = this.game.turn() == 'w' ?    // The move is done and the turn has changed.
+            this.time.btime :
+			this.time.wtime;
+		this.game.setComment("[%clk " + time + "]")
+	}
+
+	updatePage() {
+		// The turn changes immediatelly after the move.
+		const whoPlayed = this.game.turn() ==  "w" ? "Black" : "White";
+
+		let state = this.gameState();
+		let msg = "";
+		switch(state) {
+			case "checkmate":
+    			msg = "Checkmate, " + whoPlayed + " wins";
+    			break
+  			case "draw":
+				msg = "Game over, drawn position";
+ 				break
+  			case "in_progress":
+				msg = this.game.turn() + " to move";
+				if (this.game.inCheck()) { msg += ", " + this.game.turn() + " is in check" }
+				break
+			case "timeout":
+				msg = "Timeout, " + whoPlayed + " wins";
+				break
+		}
+    	this.stateTarget.textContent = msg;
+		this.fenTarget.innerHTML = this.game.fen();
+        document.getElementById("pre_pgn_game_" + this.gameId).textContent = this.game.pgn();
+	}
+
+///////////////  Timer Functions
+
+    countdown() {
+        let elapsed = Date.now() - this.time.start;
+        let time = this.game.turn() == 'w' ?
+            Math.max(0, this.time.wtime - elapsed):
+            Math.max(0, this.time.btime - elapsed);
+        this.updateClock(time);
+		if (time == 0) { this.timeout(); }
+		else {
+			let timeToNextSecond = time % 1000;
+    	    this.timer = setTimeout(() => this.countdown(), timeToNextSecond);
+		}
+	}
+
+    updateClock(time) {
+        let id = this.game.turn() == this.player ? "timer-1" : "timer-2";
+		document.getElementById(id).textContent = this.formatTimer(time);
+    }
+
+	timeout() {
+		this.updatePage();
+		if (this.player == this.game.turn()) { this.sub.perform("timeout"); }
+	}
+
+	stopTimer() {
+    	if (this.timer !== null) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
+        let elapsed = Date.now() - this.time.start;
+		if (this.game.turn() == "b") {    // After onDrop the turn has changed.
+			this.time.wtime = this.time.wtime - elapsed + this.time.increment;
+			document.getElementById("timer-1").textContent = this.formatTimer(this.time.wtime);
+		} else {
+			this.time.btime = this.time.btime - elapsed + this.time.increment;
+			document.getElementById("timer-1").textContent = this.formatTimer(this.time.btime);
+		}
+        this.time.start = null;
+    }
+
+	startTimer() {
+    	this.time.start = Date.now();
+    	this.countdown();
+	}
+
+	toggleTimer() {
+    	if (this.timer !== null) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
+        let time = this.game.turn() == "w" ?
+			this.time.btime :
+			this.time.wtime;
+		document.getElementById("timer-2").textContent = this.formatTimer(time);
+		this.time.start = null;
+		this.startTimer();
+    }
+
+/////////////////  Promotion
+
+  	promptForPromotion(source, target) {
+//    	let square = $(`#board [data-square=${target}]`)[0];
+    	let square = document.querySelector(`#board [data-square=${target}]`);
+		this.promotionView(square)
+
+		let promotion = document.getElementById("promotion");
+		promotion.style.display = "block";
+
+		return new Promise(resolve => {
+			this.promotionPieceTargets.forEach(image => {
+				image.addEventListener("click", (event) => {
+					promotion.style.display = "none";
+					resolve(event.currentTarget.dataset.piece);
+				});
+			});
+		});	
+	}
+
+	promotionView(square) {
+		const rect = square.getBoundingClientRect();
+		const left = square.offsetLeft;
+
+		// set images
+    	for (let image of this.promotionPieceTargets) {
+			image.src = this.pieceTheme[this.game.turn() + image.dataset.piece.toUpperCase()];
+			image.style.width = rect.width + "px";
+			image.style.height = rect.height + "px";
+		}
+		let promotion = document.getElementById("promotion");
+	    const styles = {
+			position: "absolute",
+        	left: left + 1.5 * rect.width + "px",
+			top: -2 * rect.height + "px"
+    	};
+    	Object.assign(promotion.style, styles);
+	}
+
+///////////////  Navigation Buttons
+
+	nextBtn() {
+		if (this.index >= this.history.length) { return false };
+		this.game.move(this.history[this.index]);
+		this.board.position(this.game.fen());
+		this.index += 1;
+	};
+
+	prevBtn() {
+		this.game.undo();
+		this.board.position(this.game.fen());
+		this.index -= 1;
+		if (this.index < 0) { this.index = 0; }
+	};
+  
+	startBtn() {
+		this.game.reset();
+		this.board.position(this.game.fen());
+		this.index = 0;
+	};
+
+	endBtn() {
+		this.game.loadPgn(this.pgn);
+		this.board.position(this.game.fen());
+		this.index = this.history.length;
+	};
+
+///////////////  Format Timer
+
+	formatTimer(time) {
+		let sec = Math.ceil(time / 1000);
+		let min = Math.floor(sec / 60);
+		let hrs = Math.floor(min / 60);
+		let days = Math.floor(hrs / 24);
+      	sec -= min * 60;
+		min -= hrs * 60;
+		hrs -= days * 24;
+		if (days > 0 ) { return days + " " + (days == 1) ? this.translate("day") : this.translate("days") }
+		else if (hrs > 0) { return ("0" + hrs).slice(-2) + ":" + ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2); }
+		else { return ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2); }
+  	}
+
+	translate(key) {
+    	const locale = "es";    // ToDo (dynamic locale change)
+
+    	const translations = {
+    		"en": {
+        		"day": "day",
+        		"days": "days"
+    		},
+    		"es": {
+        		"day": "día",
+        		"days": "días"
+    		},
+    	};
+
+	    return translations[locale][key];
+	}
+
+	disconnect() {
+    	if (this.timer !== null) { clearTimeout(this.timer); };
+		console.log("Chess Controller Disconnected");
+    	console.log("Game Channel Subscription Disconnected: " + this.sub);
+        consumer.subscriptions.remove(this.sub);
+        this.sub = null; 
+	}
+}

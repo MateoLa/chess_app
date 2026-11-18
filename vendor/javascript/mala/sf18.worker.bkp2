@@ -1,0 +1,28 @@
+import xx from "sf";
+
+
+self.onmessage = async (e) => {
+    console.log("MaLa WORKER - cmd: ", e.data);
+
+    if (e.data.type === 'INIT_WASM') {
+        const digestedWasmUrl = e.data.wasm_digest;
+
+        const Module = {
+            locateFile: (path, prefix) => { 
+                if (path.endsWith('.wasm')) return digestedWasmUrl;
+                return prefix + path;
+            },
+            printErr: (text) => { console.warn('MaLa C++ error: ', text); },
+            print: (text) => { self.postMessage(text) },
+            onRuntimeInitialized: () => {
+                console.log("sf Module Loaded");
+                Module.wasm_uci = Module.cwrap('wasm_uci', null, ['string']);
+            }
+        }
+
+        const sf = await xx(Module);
+    }
+
+    if (e.data.type === 'CMD') { sf.wasm_uci(e.data); }
+}
+

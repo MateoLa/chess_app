@@ -1,0 +1,61 @@
+<footer id="footer" class="pt-2 mx-auto border-top px-5 z-0">
+    <div class="row d-lg-flex justify-content-lg-around">
+
+        <div class="d-flex d-lg-block col-lg-4">
+            <figure class="position-relative mx-auto mx-lg-0">
+                <%= link_to main_app.root_path, "aria-label": "Chess App", method: :get do %>
+                    <%= image_tag "logos/lion-4d.png", width: "300", height: "300" %>
+                <% end %>
+                <div class="d-none d-lg-block position-absolute bottom-0 start-0">
+                    Chess App
+                </div>
+            </figure>
+        </div>
+
+        <div class="col-lg-4 py-lg-2">
+            <div class="d-flex flex-column align-items-center align-items-lg-start pt-4 pb-3">
+                <p><%= t(:borges6).html_safe %></p>
+                <p><%= t(:borges7).html_safe %></p>
+                <p class="align-self-center">Jorge Luis Borges</p>
+            </div>
+        </div>
+
+        <div class="d-block py-2 col-lg-4">
+            <div class="d-none d-lg-block pt-4 pb-3">
+                <%= t(:contact_us) %>
+            </div>
+            <div class="d-flex flex-column align-items-center align-items-lg-start pb-3">
+                <div>current_store.address.html_safe</div>
+                <div><%= t(:call_us_now) %> 099123456</div>
+                <div><%= t(:email) %>: chessapp@example.com.uy</div>
+            </div>
+
+            <div class="d-none d-lg-block pt-4 pb-3 pl-2">
+                <%= t(:follow_us) %>
+            </div>
+            <div class="d-flex d-lg-block justify-content-center mx-auto">
+                <div class="d-flex">
+                    <%= link_to "https://facebook.com/Chess-App", target: '_blank', rel: 'nofollow noopener', 'aria-label': "facebook" do %>
+                        <%= content_tag :figure, id: "facebook", class: 'px-2' do %>
+                            <%= inline_svg_tag "svg/facebook.svg", class: "", size: "22px*22px" %>
+                        <% end %>
+                    <% end %>
+            
+                    <%= link_to "https://twitter.com/Chess-App", target: '_blank', rel: 'nofollow noopener', 'aria-label': "twitter" do %>
+                        <%= content_tag :figure, id: "twitter", class: 'px-2' do %>
+                            <%= inline_svg_tag "svg/twitter.svg", class: "", size: "22px*22px" %>
+                        <% end %>
+                    <% end %>
+            
+                    <%= link_to "https://instagram.com/Chess-App", target: '_blank', rel: 'nofollow noopener', 'aria-label': "instagram" do %>
+                        <%= content_tag :figure, id: "instagram", class: 'px-2' do %>
+                            <%= inline_svg_tag "svg/instagram.svg", class: "", size: "22px*22px" %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%= render "shared/copyright" %>
+</footer>
